@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test1/widget/profile_select_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -8,27 +9,39 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-
-  static const SnackBar snackBar = SnackBar(content: Text("hello"));
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: [
+        IconButton(
+          onPressed: () => {},
+          icon: const Icon(Icons.info_outlined),
+        ),
+      ],
+      persistentFooterAlignment: AlignmentDirectional.bottomStart,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text("Welcome to MyApp!"),
             const Padding(
-              padding: EdgeInsets.all(40),
+              padding: EdgeInsets.only(left: 16, right: 16, bottom: 120),
+              child: Text(
+                "Welcome to GPA Galaxy!",
+                style: TextStyle(fontSize: 48),
+                textAlign: TextAlign.center,
+              ),
             ),
             FilledButton(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (ctx) => const ProfileSelectScreen(),
+                  ),
+                );
               },
-              child: const Text("hi"),
+              child: const Text("Get Started"),
             ),
-            // const SnackBar(content: Text("hello")),
           ],
         ),
       ),

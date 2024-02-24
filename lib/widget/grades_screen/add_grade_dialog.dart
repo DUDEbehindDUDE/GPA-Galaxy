@@ -52,10 +52,8 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
       return;
     }
     if (field == "grade") {
-      int number;
-      try {
-        number = int.parse(value);
-      } catch (e) {
+      int? number = int.tryParse(value);
+      if (number == null) {
         _setInput("Field must be a number between 0 and 100", "${field}ErrorText");
         _setInput(null, field);
         return;

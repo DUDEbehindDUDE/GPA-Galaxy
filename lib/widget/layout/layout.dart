@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test1/generics/achievements.dart';
 import 'package:flutter_test1/widget/grades_screen/grades.dart';
 import 'package:hive/hive.dart';
 
 import 'layout_content.dart';
 
 class Layout extends StatefulWidget {
-  const Layout({super.key});
+  const Layout({super.key, required this.selected});
+
+  final String selected;
 
   @override
   State<Layout> createState() => _LayoutState();
@@ -20,9 +23,9 @@ class _LayoutState extends State<Layout> {
     "Grades",
     "Activities",
     "Volunteer Hours",
-    "Share"
+    "Achievements"
   ];
-
+  var achievement = Achievements(name: "hello", desc: "desc", dependent: "variable", requirements: [1]);
   void _onDestinationSelected(int index) {
     setState(() {
       _selectedIndex = index;
@@ -90,9 +93,9 @@ class _LayoutState extends State<Layout> {
             label: "Volunteering",
           ),
           NavigationDestination(
-            icon: Icon(Icons.share_outlined),
-            selectedIcon: Icon(Icons.share),
-            label: "Share",
+            icon: Icon(Icons.workspace_premium_outlined),
+            selectedIcon: Icon(Icons.workspace_premium),
+            label: "Achievements",
           ),
         ],
       ),

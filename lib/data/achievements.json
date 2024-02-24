@@ -1,0 +1,16 @@
+{
+    "academic": [
+        {
+            "name": "Building up the Galaxy",
+            "description": "Log your first grade!",
+            "additionalDescriptions": [
+                "Log a semester's worth of grades!"
+            ],
+            "upgradable": true,
+            "dependent": "classAmount",
+            "levelCap": 8,
+            "levelStart": 0,
+            "levelRequirements": [1, 4, 8, 12, 16, 20, 24, 28, 32]
+        }
+    ]
+}
