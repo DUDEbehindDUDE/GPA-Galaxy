@@ -58,6 +58,7 @@ class ActivityAdapter extends TypeAdapter<Activity> {
       date: reader.read(),
       weeklyTime: reader.read(),
       totalWeeks: reader.read(),
+      name: reader.read(),
     );
   }
 
@@ -66,6 +67,7 @@ class ActivityAdapter extends TypeAdapter<Activity> {
     writer.write(obj.date);
     writer.write(obj.weeklyTime);
     writer.write(obj.totalWeeks);
+    writer.write(obj.name);
   }
 }
 
@@ -78,6 +80,7 @@ class VolunteerAdapter extends TypeAdapter<Volunteer> {
     return Volunteer(
       date: reader.read(),
       hours: reader.read(),
+      name: reader.read(),
     );
   }
 
@@ -85,5 +88,36 @@ class VolunteerAdapter extends TypeAdapter<Volunteer> {
   void write(BinaryWriter writer, Volunteer obj) {
     writer.write(obj.date);
     writer.write(obj.hours);
+    writer.write(obj.name);
+  }
+}
+
+class GradeAdapter extends TypeAdapter<Grade> {
+  @override
+  final int typeId = 4; // Unique identifier for Grade
+
+  @override
+  Grade read(BinaryReader reader) {
+    return Grade.values[reader.read()];
+  }
+
+  @override
+  void write(BinaryWriter writer, Grade obj) {
+    writer.write(obj.index);
+  }
+}
+
+class SemesterAdapter extends TypeAdapter<Semester> {
+  @override
+  final int typeId = 5; // Unique identifier for Semester
+
+  @override
+  Semester read(BinaryReader reader) {
+    return Semester.values[reader.read()];
+  }
+
+  @override
+  void write(BinaryWriter writer, Semester obj) {
+    writer.write(obj.index);
   }
 }

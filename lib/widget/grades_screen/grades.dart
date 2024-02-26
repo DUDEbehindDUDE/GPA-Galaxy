@@ -1,11 +1,14 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_test1/class/database_helper.dart';
 import 'package:flutter_test1/class/math.dart';
+import 'package:flutter_test1/generics/profile.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Grades extends StatefulWidget {
-  const Grades({super.key});
+  final String profile;
+
+  const Grades({super.key, required this.profile});
 
   @override
   createState() => _GradesState();
@@ -13,14 +16,7 @@ class Grades extends StatefulWidget {
 
 class _GradesState extends State<Grades> {
   Math math = Math();
-  DatabaseHelper? gradesDatabaseHelper;
-
-  Future<void> getDatabaseHelper() async {
-    var gradesDatabaseHelper = await DatabaseHelper.create("grades");
-    setState(() {
-      this.gradesDatabaseHelper = gradesDatabaseHelper;
-    });
-  }
+  var profileBox = Hive.box<Profile>("profiles");
 
   String gpaText() {
     if (calcGPA() != calcGPA() || calcGPA() == 0) {
@@ -34,24 +30,24 @@ Unweighted GPA: ${calcGPA(weighted: false)}
   }
 
   double calcGPA({bool weighted = true}) {
-    if (gradesDatabaseHelper == null) return 0;
-
     double totalGPA = 0;
-    var allDatabaseItems = gradesDatabaseHelper!.getAllItems();
-    List<dynamic> allClasses = [];
-    for (var databaseItem in allDatabaseItems) {
-      // I genuinely don't know why I need this extra for loop
-      for (var item in databaseItem) {
-        allClasses.add(item);
-      }
-    }
+    Profile profile = profileBox.get(widget.profile)!;
+
+    // Get all the classes out of the database
+    List<Class> allClasses = [];
+    profile.academics.forEach((key, semesters) {
+      semesters.forEach((key, classes) {
+        for (var item in classes) {
+          allClasses.add(item);
+        }
+      });
+    });
 
     for (var item in allClasses) {
-      int grade = int.parse(item[1]);
-      double weight = item[2] as double;
-      if (grade >= 100) grade = 99; // 100 isn't a 5.0 gpa
-      double gpa = max(0, (grade / 10).floor() - 5);
-      if (weighted) gpa += weight;
+      // the min is so 100 doesn't count as a 5.0 gpa,
+      // the max is so you don't have a negative gpa
+      double gpa = max(0, (min(item.grade, 99) / 10).floor() - 5);
+      if (weighted) gpa += item.classWeight;
       totalGPA += gpa;
     }
 
@@ -61,36 +57,36 @@ Unweighted GPA: ${calcGPA(weighted: false)}
   @override
   Widget build(BuildContext context) {
     const TextStyle style = TextStyle(fontSize: 18);
-    getDatabaseHelper();
 
-    if (gradesDatabaseHelper == null) {
-      return const Text("");
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-          flex: 1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                "GPA",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
-                ),
+    return ValueListenableBuilder<Box>(
+      valueListenable: profileBox.listenable(),
+      builder: (context, value, child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              flex: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "GPA",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 26,
+                    ),
+                  ),
+                  Text(
+                    gpaText(),
+                    style: style,
+                  ),
+                ],
               ),
-              Text(
-                gpaText(),
-                style: style,
-              ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

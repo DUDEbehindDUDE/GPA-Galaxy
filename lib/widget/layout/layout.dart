@@ -6,9 +6,9 @@ import 'package:hive/hive.dart';
 import 'layout_content.dart';
 
 class Layout extends StatefulWidget {
-  const Layout({super.key, required this.selected});
+  const Layout({super.key, required this.profile});
 
-  final String selected;
+  final String profile;
 
   @override
   State<Layout> createState() => _LayoutState();
@@ -17,8 +17,8 @@ class Layout extends StatefulWidget {
 class _LayoutState extends State<Layout> {
   int _selectedIndex = 0;
   String _title = "Grades";
-  Widget _content = const LayoutContent(screen: "grades");
-  Widget _additionalContent = const Grades();
+  late Widget _content;
+  late Widget _additionalContent;
   final List<String> _screenNames = [
     "Grades",
     "Activities",
@@ -32,13 +32,13 @@ class _LayoutState extends State<Layout> {
       _title = _screenNames[index];
 
       _content = switch (index) {
-        0 => const LayoutContent(screen: "grades"),
-        1 => const LayoutContent(screen: "activities"),
+        0 => LayoutContent(screen: "grades", profile: widget.profile),
+        1 => LayoutContent(screen: "activities", profile: widget.profile),
         _ => const Text(""), // empty element
       };
 
       _additionalContent = switch (index) {
-        0 => const Grades(),
+        0 => Grades(profile: widget.profile),
         _ => const Text(""), // empty element
       };
     });
@@ -46,12 +46,14 @@ class _LayoutState extends State<Layout> {
 
   @override
   Widget build(BuildContext context) {
+    _onDestinationSelected(_selectedIndex);
     return Scaffold(
       appBar: AppBar(
         title: Text(
           _title,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 38),
+          style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 30),
         ),
+        iconTheme: const IconThemeData(size: 28, color: Colors.white),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),

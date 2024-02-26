@@ -16,24 +16,33 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
   var profileBox = Hive.box<Profile>("profiles");
 
   List<Widget> _getProfileSelections() {
-    List<Widget> profiles = [];
+    List<Widget> profiles = [
+      Padding(
+        padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
+        child: (profileBox.keys.isNotEmpty)
+            ? const Text("Long press on an item for more actions")
+            : null,
+      ),
+    ];
     for (String profileName in profileBox.keys) {
       profiles.add(Card(
         child: ListTile(
           selected: _isSelected(profileName),
-          onTap: () => _setSelected(profileName),
+          onTap: () {
+            _setSelected(null);
+            _goToProfile(context, profileName);
+          },
+          onLongPress: () => _setSelected(profileName),
           title: Text(profileName),
           trailing: _isSelected(profileName) ? const Icon(Icons.check) : null,
         ),
       ));
     }
+
     profiles.add(Center(
       child: TextButton(
         child: const Text("Delete all profiles (debug)"),
-        onPressed: () {
-          profileBox.clear();
-          _setSelected(null);                    
-        },
+        onPressed: () => profileBox.clear(),
       ),
     ));
     profiles.add(Center(
@@ -49,15 +58,12 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
     return profiles;
   }
 
-  void _goToProfile(context) async {
-    var selected = this.selected;
-    if (selected == null) return;
-
-    await Hive.openBox(selected);
+  void _goToProfile(context, profileName) async {
+    await Hive.openBox(profileName);
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Layout(selected: selected)),
+      MaterialPageRoute(builder: (context) => Layout(profile: profileName)),
     );
   }
 
@@ -79,13 +85,26 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Select a Profile"),
+        title: const Text(
+          "Select a Profile",
+          style: TextStyle(fontWeight: FontWeight.w500, fontSize: 30),
+        ),
+        iconTheme: const IconThemeData(size: 28, color: Colors.white),
       ),
       persistentFooterButtons: [
         TextButton(
-          onPressed: selected == null ? null : () => _goToProfile(context),
-          child: const Text("Done"),
-        )
+          onPressed: selected == null ? null : () {},
+          child: const Text("Edit"),
+        ),
+        TextButton(
+          onPressed: selected == null
+              ? null
+              : () {
+                  profileBox.delete(selected);
+                  _setSelected(null);
+                },
+          child: const Text("Delete"),
+        ),
       ],
       body: ValueListenableBuilder<Box>(
         valueListenable: profileBox.listenable(),

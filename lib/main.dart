@@ -7,10 +7,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
   // register hive stuff
   await Hive.initFlutter();
-  Hive.registerAdapter(ClassAdapter());
-  Hive.registerAdapter(ActivityAdapter());
-  Hive.registerAdapter(VolunteerAdapter());
-  Hive.registerAdapter(ProfileAdapter());
+  Hive.registerAdapter<Class>(ClassAdapter());
+  Hive.registerAdapter<Activity>(ActivityAdapter());
+  Hive.registerAdapter<Volunteer>(VolunteerAdapter());
+  Hive.registerAdapter<Profile>(ProfileAdapter());
+  Hive.registerAdapter<Semester>(SemesterAdapter());
+  Hive.registerAdapter<Grade>(GradeAdapter());
   // open boxes
   await Hive.openBox("appConfig");
   await Hive.openBox<Profile>("profiles");

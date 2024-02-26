@@ -34,10 +34,10 @@ class _CreateProfileDialogState extends State<CreateProfileDialog> {
     if (profileBox.get(profileName) != null) return;
 
     var newProfile = Profile(
-      academics: {},
-      activities: {},
-      volunteering: {},
-      unlockedAchievements: [],
+      academics: <Grade, Map<Semester, List<Class>>> {},
+      activities: <Grade, List<Activity>> {},
+      volunteering: <Grade, List<Volunteer>> {},
+      unlockedAchievements: <String> [],
     );
 
     profileBox.put(profileName, newProfile);

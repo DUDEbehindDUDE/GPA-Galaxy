@@ -1,8 +1,8 @@
 class Profile {
   // string grade, list of classes
-  Map<Year, Map<Semester, List<Class>>> academics;
-  Map<Year, Map<String, Activity>> activities;
-  Map<Year, Map<String, Volunteer>> volunteering;
+  Map<Grade, Map<Semester, List<Class>>> academics;
+  Map<Grade, List<Activity>> activities;
+  Map<Grade, List<Volunteer>> volunteering;
   List<String> unlockedAchievements;
 
   Profile({
@@ -15,7 +15,7 @@ class Profile {
 
 class Class {
   String className;
-  int classWeight;
+  double classWeight;
   int grade;
 
   Class({
@@ -26,11 +26,13 @@ class Class {
 }
 
 class Activity {
+  String name;
   String date;
   double weeklyTime;
   int totalWeeks;
 
   Activity({
+    required this.name,
     required this.date,
     required this.weeklyTime,
     required this.totalWeeks,
@@ -38,12 +40,13 @@ class Activity {
 }
 
 class Volunteer {
+  String name;
   String date;
   String hours;
 
-  Volunteer({required this.date, required this.hours});
+  Volunteer({required this.name, required this.date, required this.hours});
 }
 
-enum Year { freshman, sophomore, junior, senior }
+enum Grade { freshman, sophomore, junior, senior }
 
 enum Semester { s1, s2 }
