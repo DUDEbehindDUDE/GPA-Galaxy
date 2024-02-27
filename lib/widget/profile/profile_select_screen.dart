@@ -17,14 +17,7 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
   var profileBox = Hive.box<Profile>("profiles");
 
   List<Widget> _getProfileSelections() {
-    List<Widget> profiles = [
-      Padding(
-        padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
-        child: (profileBox.keys.isNotEmpty)
-            ? const Text("Long press on an item for more actions")
-            : null,
-      ),
-    ];
+    List<Widget> profiles = [];
     for (String profileName in profileBox.keys) {
       profiles.add(Card(
         child: ListTile(
@@ -39,19 +32,48 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
         ),
       ));
     }
-    profiles.add(Center(
-      child: TextButton(
-        child: const Text("New profile..."),
-        onPressed: () => showDialog(
-          context: context,
-          builder: (BuildContext context) => const CreateProfileDialog(),
+
+    // If the user hasn't created a profile, tell them how to create one
+    // otherwise, add a hint below that you can long press for more context actions
+    if (profiles.isEmpty) {
+      profiles.add(const Center(
+        child: Padding(
+          padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 32.0),
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(right: 16.0),
+                child: Icon(
+                  Icons.info_outline,
+                  color: Colors.grey,
+                ),
+              ),
+              Flexible(
+                child: Text(
+                  "It looks like you haven't made a profile yet. Tap 'New' below to create one.",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    ));
+      ));
+    } else {
+      profiles.add(Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: (profileBox.keys.isNotEmpty)
+            ? const Text(
+                "Long press on an item for more actions",
+                style: TextStyle(color: Colors.grey),
+              )
+            : null,
+      ));
+    }
 
     return profiles;
   }
 
+  // Navigates to the profile when you tap it
   void _goToProfile(context, profileName) async {
     await Hive.openBox(profileName);
 
@@ -61,6 +83,7 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
     );
   }
 
+  // This function toggles the selection of a profile
   void _setSelected(name) {
     setState(() {
       if (_isSelected(name)) {
@@ -106,6 +129,13 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
                   _setSelected(null);
                 },
           child: const Text("Delete"),
+        ),
+        // New profile button
+        FilledButton(
+          child: const Text("New"),
+          onPressed: () => showDialog(
+              context: context,
+              builder: (context) => const CreateProfileDialog()),
         ),
       ],
       body: ValueListenableBuilder<Box>(

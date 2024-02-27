@@ -20,12 +20,6 @@ class _CreateProfileDialogState extends State<CreateProfileDialog> {
   String? profileNameErrorText;
   String? profileName;
 
-  void _validateAllFields() {
-    setState(() {
-      profileNameErrorText ??= ValidationHelper.validateItemErrorText(text: profileName);
-    });
-  }
-
   void _checkIfNameTaken(name) {
     if (profileBox.keys.contains(name)) {
       profileNameErrorText = "Profile name is already taken";
