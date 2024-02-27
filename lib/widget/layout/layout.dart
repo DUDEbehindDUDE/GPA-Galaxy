@@ -95,8 +95,10 @@ class _LayoutState extends State<Layout> {
             label: "Volunteering",
           ),
           NavigationDestination(
-            icon: Icon(Icons.workspace_premium_outlined),
-            selectedIcon: Icon(Icons.workspace_premium),
+            // I don't know why the trophy icon isn't in here, but this
+            // one is literally the exact same so 🤷
+            icon: Icon(Icons.emoji_events_outlined),
+            selectedIcon: Icon(Icons.emoji_events),
             label: "Achievements",
           ),
         ],

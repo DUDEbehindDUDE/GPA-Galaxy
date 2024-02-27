@@ -35,10 +35,10 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
 
   void _validateInput() {
     setState(() {
-      hrsPerWkErrorText ??=
-          ValidationHelper.validateItemErrorText(text: hrsPerWk.toString(), type: double, min: 0, max: 40);
-      totalWeeksErrorText ??=
-          ValidationHelper.validateItemErrorText(text: totalWeeks.toString(), type: int, min: 1, max: 52);
+      hrsPerWkErrorText ??= ValidationHelper.validateItemErrorText(
+          text: hrsPerWk.toString(), type: double, min: 0, max: 40);
+      totalWeeksErrorText ??= ValidationHelper.validateItemErrorText(
+          text: totalWeeks.toString(), type: int, min: 1, max: 52);
       activityNameErrorText ??=
           ValidationHelper.validateItemErrorText(text: activityName);
       dateStartedErrorText ??=
@@ -95,7 +95,7 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
       title: const Text("Add an Activity"),
       content: SizedBox(
         width: 300,
-        height: 300,
+        height: 200,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -128,7 +128,11 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
                             text: value, type: double, min: 0, max: 40);
                         hrsPerWkErrorText =
                             ValidationHelper.validateItemErrorText(
-                                text: value, type: double, min: 0, max: 40);
+                                text: value,
+                                type: double,
+                                min: 0,
+                                max: 40,
+                                short: true);
                       });
                     },
                     decoration: InputDecoration(
@@ -148,7 +152,11 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
                             text: value, type: int, min: 1, max: 52);
                         totalWeeksErrorText =
                             ValidationHelper.validateItemErrorText(
-                                text: value, type: int, min: 1, max: 52);
+                                text: value,
+                                type: int,
+                                min: 1,
+                                max: 52,
+                                short: true);
                       });
                     },
                     decoration: InputDecoration(
@@ -169,15 +177,14 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
           onPressed: () => Navigator.pop(context, "Discard"),
           child: const Text("Discard"),
         ),
-        TextButton(
-          onPressed: () {
-            if (_checkIfNull()) {
-              _validateInput();
-              return;
-            }
-            _addItemToBox();
-            Navigator.pop(context, "Create");
-          },
+        FilledButton(
+          // Grey out this option if anything is invalid as per material 3 guidelines
+          onPressed: _checkIfNull()
+              ? null
+              : () {
+                  _addItemToBox();
+                  Navigator.pop(context, "Create");
+                },
           child: const Text("Add"),
         ),
       ],

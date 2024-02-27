@@ -15,12 +15,12 @@ class ValidationHelper {
     return text;
   }
 
-  static String? validateItemErrorText({String? text, Type? type, int? min, int? max}) {
+  static String? validateItemErrorText({String? text, Type? type, int? min, int? max, short = false}) {
     if (text == null || text.isEmpty) {
-      return "Field cannot be left empty";
+      return short ? "Cannot be empty" : "Field cannot be left empty";
     }
     if (text.length > 50) {
-      return "Field exceeds character limit (${text.length}/50)";
+      return short ? "${text.length}/50 characters" : "Field exceeds character limit (${text.length}/50)";
     }
     if (type == int || type == double || type == num) {
       String errorText = "";
@@ -36,20 +36,20 @@ class ValidationHelper {
       num? number;
       if (type == int) {
         number = int.tryParse(text);
-        errorText = "Field must be an integer $errorText";
+        errorText = short ? "Must be an integer" : "Field must be an integer $errorText";
       } else {
         number = double.tryParse(text);
-        errorText = "Field must be a number $errorText";
+        errorText = short ? "Must be a number" : "Field must be a number $errorText";
       }
 
       if (number == null || number != number || text.toLowerCase().contains("infinity")) {
         return errorText;
       }
       if (min != null && number < min) {
-        return errorText;
+        return short ? "Must be $min or more" : errorText;
       }
       if (max != null && number > max) {
-        return errorText;
+        return short ? "Must be $max or less" : errorText;
       }
 
     }

@@ -133,83 +133,87 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
       content: SizedBox(
         width: 300,
         height: 300,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            TextField(
-              onChanged: (value) => _validateInput(value, "className"),
-              decoration: InputDecoration(
-                labelText: "Class Name",
-                errorText: classNameErrorText,
-                filled: true,
-                hintText: _randomClassName(),
-              ),
-            ),
-            const Padding(padding: EdgeInsets.all(5)),
-            Center(
-              child: SegmentedButton(
-                segments: const [
-                  ButtonSegment(
-                    value: 0.0,
-                    label: Text("Regular"),
-                  ),
-                  ButtonSegment(
-                    value: 0.5,
-                    label: Text("Honors"),
-                  ),
-                  ButtonSegment(
-                    value: 1.0,
-                    label: Text("AP/IB"),
-                  ),
-                ],
-                style: const ButtonStyle(
-                  visualDensity: VisualDensity.compact,
-                  textStyle: MaterialStatePropertyAll(
-                    TextStyle(fontSize: 12),
-                  ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextField(
+                onChanged: (value) => _validateInput(value, "className"),
+                decoration: InputDecoration(
+                  labelText: "Class Name",
+                  errorText: classNameErrorText,
+                  filled: true,
+                  hintText: _randomClassName(),
                 ),
-                selected: <double>{classWeight},
-                onSelectionChanged: (selection) => setState(() {
-                  classWeight = selection.first;
-                }),
               ),
-            ),
-            const Padding(padding: EdgeInsets.all(4)),
-            Center(
-              child: SegmentedButton(
-                segments: const [
-                  ButtonSegment(
-                    value: Semester.s1,
-                    label: Text("Semester 1"),
+              const Padding(padding: EdgeInsets.all(5)),
+              Center(
+                child: SegmentedButton(
+                  segments: const [
+                    ButtonSegment(
+                      value: 0.0,
+                      label: Text("Regular"),
+                    ),
+                    ButtonSegment(
+                      value: 0.5,
+                      label: Text("Honors"),
+                    ),
+                    ButtonSegment(
+                      value: 1.0,
+                      label: Text("AP/IB"),
+                    ),
+                  ],
+                  style: const ButtonStyle(
+                    visualDensity: VisualDensity.compact,
+                    textStyle: MaterialStatePropertyAll(
+                      TextStyle(fontSize: 12),
+                    ),
                   ),
-                  ButtonSegment(
-                    value: Semester.s2,
-                    label: Text("Semester 2"),
-                  ),
-                ],
-                style: const ButtonStyle(
-                  visualDensity: VisualDensity.compact,
-                  textStyle: MaterialStatePropertyAll(
-                    TextStyle(fontSize: 12),
-                  ),
+                  selected: <double>{classWeight},
+                  onSelectionChanged: (selection) => setState(() {
+                    classWeight = selection.first;
+                  }),
                 ),
-                selected: <Semester>{semester},
-                onSelectionChanged: (selection) => setState(() {
-                  semester = selection.first;
-                }),
               ),
-            ),
-            const Padding(padding: EdgeInsets.all(15)),
-            TextField(
-              onChanged: (value) => _validateInput(value, "grade"),
-              decoration: InputDecoration(
-                labelText: "Grade",
-                filled: true,
-                errorText: gradeErrorText,
-                hintText: "e.g. '91'",
+              const Padding(padding: EdgeInsets.all(4)),
+              Center(
+                child: SegmentedButton(
+                  segments: const [
+                    ButtonSegment(
+                      value: Semester.s1,
+                      label: Text("Semester 1"),
+                    ),
+                    ButtonSegment(
+                      value: Semester.s2,
+                      label: Text("Semester 2"),
+                    ),
+                  ],
+                  style: const ButtonStyle(
+                    visualDensity: VisualDensity.compact,
+                    textStyle: MaterialStatePropertyAll(
+                      TextStyle(fontSize: 12),
+                    ),
+                  ),
+                  selected: <Semester>{semester},
+                  onSelectionChanged: (selection) => setState(() {
+                    semester = selection.first;
+                  }),
+                ),
               ),
-            ),
-          ],
+              const Padding(padding: EdgeInsets.all(15)),
+              TextField(
+                onChanged: (value) => _validateInput(value, "grade"),
+                decoration: InputDecoration(
+                  labelText: "Grade",
+                  filled: true,
+                  errorText: gradeErrorText,
+                  hintText: "e.g. '91'",
+                ),
+              ),
+              // extra padding on the bottom so it doesn't look as weird to scroll
+              const Padding(padding: EdgeInsets.all(20)),
+            ],
+          ),
         ),
       ),
       actions: [
@@ -217,16 +221,14 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
           onPressed: () => Navigator.pop(context, "Discard"),
           child: const Text("Discard"),
         ),
-        TextButton(
-          onPressed: () {
-            if (className == null || grade == null) {
-              _validateInput(className, "className");
-              _validateInput(grade.toString(), "grade");
-              return;
-            }
-            _addItem();
-            Navigator.pop(context, "Create");
-          },
+        FilledButton(
+          // grey out this option if things are invalid as per material 3 guidelines
+          onPressed: (className == null || grade == null)
+              ? null
+              : () {
+                  _addItem();
+                  Navigator.pop(context, "Create");
+                },
           child: const Text("Add"),
         ),
       ],

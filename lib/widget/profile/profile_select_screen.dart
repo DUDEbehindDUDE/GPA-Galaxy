@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test1/generics/type_adapters/profile.dart';
-import 'package:flutter_test1/widget/create_profile_dialog.dart';
+import 'package:flutter_test1/widget/profile/create_profile_dialog.dart';
 import 'package:flutter_test1/widget/layout/layout.dart';
+import 'package:flutter_test1/widget/profile/delete_profile_dialog.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ProfileSelectScreen extends StatefulWidget {
@@ -38,13 +39,6 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
         ),
       ));
     }
-
-    profiles.add(Center(
-      child: TextButton(
-        child: const Text("Delete all profiles (debug)"),
-        onPressed: () => profileBox.clear(),
-      ),
-    ));
     profiles.add(Center(
       child: TextButton(
         child: const Text("New profile..."),
@@ -92,15 +86,23 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
         iconTheme: const IconThemeData(size: 28, color: Colors.white),
       ),
       persistentFooterButtons: [
+        // Edit button
         TextButton(
+          // set this to null if nothing is selected, which disables button
           onPressed: selected == null ? null : () {},
           child: const Text("Edit"),
         ),
+        // Delete Profile Button
         TextButton(
+          // set this to null if nothing is selected, which disables button
           onPressed: selected == null
               ? null
-              : () {
-                  profileBox.delete(selected);
+              : () async {
+                  await showDialog(
+                    context: context,
+                    builder: (context) =>
+                        DeleteProfileDialog(profile: selected!),
+                  );
                   _setSelected(null);
                 },
           child: const Text("Delete"),
