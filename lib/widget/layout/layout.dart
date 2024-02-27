@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test1/generics/achievements.dart';
-import 'package:flutter_test1/widget/grades_screen/grades.dart';
+import 'package:gpa_galaxy/generics/achievements.dart';
+import 'package:gpa_galaxy/widget/grades_screen/grades.dart';
 import 'package:hive/hive.dart';
 
 import 'layout_content.dart';

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test1/generics/type_adapters/activity.dart';
-import 'package:flutter_test1/generics/type_adapters/class.dart';
-import 'package:flutter_test1/generics/type_adapters/grade.dart';
-import 'package:flutter_test1/generics/type_adapters/profile.dart';
-import 'package:flutter_test1/generics/type_adapters/semester.dart';
-import 'package:flutter_test1/generics/type_adapters/volunteer.dart';
-import 'package:flutter_test1/widget/welcome_screen.dart';
+import 'package:gpa_galaxy/generics/type_adapters/activity.dart';
+import 'package:gpa_galaxy/generics/type_adapters/class.dart';
+import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
+import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
+import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
+import 'package:gpa_galaxy/generics/type_adapters/volunteer.dart';
+import 'package:gpa_galaxy/widget/welcome_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {

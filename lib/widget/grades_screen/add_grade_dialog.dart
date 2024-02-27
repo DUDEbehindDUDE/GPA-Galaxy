@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_test1/generics/type_adapters/semester.dart';
-import 'package:flutter_test1/generics/type_adapters/class.dart';
-import 'package:flutter_test1/generics/type_adapters/grade.dart';
-import 'package:flutter_test1/generics/type_adapters/profile.dart';
+import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
+import 'package:gpa_galaxy/generics/type_adapters/class.dart';
+import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
+import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class AddGradeDialog extends StatefulWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test1/class/util.dart';
-import 'package:flutter_test1/generics/type_adapters/grade.dart';
-import 'package:flutter_test1/widget/activities_screen/add_activity_dialog.dart';
-import 'package:flutter_test1/widget/grades_screen/add_grade_dialog.dart';
+import 'package:gpa_galaxy/class/util.dart';
+import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
+import 'package:gpa_galaxy/widget/activities_screen/add_activity_dialog.dart';
+import 'package:gpa_galaxy/widget/grades_screen/add_grade_dialog.dart';
 
 class LayoutContentItems extends StatelessWidget {
   LayoutContentItems({

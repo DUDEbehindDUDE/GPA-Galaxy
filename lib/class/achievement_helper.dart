@@ -1,5 +1,5 @@
-import 'package:flutter_test1/class/database_helper.dart';
-import 'package:flutter_test1/generics/achievements.dart';
+import 'package:gpa_galaxy/class/database_helper.dart';
+import 'package:gpa_galaxy/generics/achievements.dart';
 
 class AchievementHelper {
   Future<AchievementHelper> create() async {
