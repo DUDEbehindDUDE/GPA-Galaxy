@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test1/generics/profile.dart';
+import 'package:flutter_test1/generics/type_adapters/profile.dart';
 import 'package:flutter_test1/widget/create_profile_dialog.dart';
 import 'package:flutter_test1/widget/layout/layout.dart';
 import 'package:hive_flutter/hive_flutter.dart';

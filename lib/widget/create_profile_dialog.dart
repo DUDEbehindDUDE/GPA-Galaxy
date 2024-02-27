@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test1/class/validation_helper.dart';
-import 'package:flutter_test1/generics/profile.dart';
+import 'package:flutter_test1/generics/type_adapters/semester.dart';
+import 'package:flutter_test1/generics/type_adapters/activity.dart';
+import 'package:flutter_test1/generics/type_adapters/class.dart';
+import 'package:flutter_test1/generics/type_adapters/grade.dart';
+import 'package:flutter_test1/generics/type_adapters/profile.dart';
+import 'package:flutter_test1/generics/type_adapters/volunteer.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class CreateProfileDialog extends StatefulWidget {

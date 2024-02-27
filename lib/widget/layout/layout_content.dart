@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_test1/generics/profile.dart';
+import 'package:flutter_test1/generics/type_adapters/grade.dart';
+import 'package:flutter_test1/generics/type_adapters/profile.dart';
 import 'package:flutter_test1/widget/layout/layout_content_items.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
