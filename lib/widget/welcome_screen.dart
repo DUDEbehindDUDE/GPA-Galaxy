@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gpa_galaxy/widget/info/index.dart';
 import 'package:gpa_galaxy/widget/profile/profile_select_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -14,7 +15,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     return Scaffold(
       persistentFooterButtons: [
         IconButton(
-          onPressed: () => {},
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (ctx) => const Index()),
+          ),
           icon: const Icon(Icons.info_outlined),
         ),
       ],
