@@ -81,13 +81,8 @@ class _CreateProfileDialogState extends State<CreateProfileDialog> {
           onPressed: () => Navigator.pop(context, "Discard"),
           child: const Text("Discard"),
         ),
-        TextButton(
-          onPressed: () {
-            if (profileName == null) {
-              _validateAllFields();
-              return;
-            }
-
+        FilledButton(
+          onPressed: (profileName == null) ? null : () {
             _addProfileToBox();
             Navigator.pop(context, "Create");
           },
