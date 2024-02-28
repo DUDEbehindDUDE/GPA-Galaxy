@@ -28,10 +28,6 @@ class InfoIndex extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => const License())),
           ),
           ListTile(
-            title: const Text("Terms of Use"),
-            onTap: () {},
-          ),
-          ListTile(
             title: const Text("Open source licenses used"),
             onTap: () => showLicensePage(context: context),
           ),

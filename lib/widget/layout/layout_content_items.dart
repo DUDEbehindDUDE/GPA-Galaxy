@@ -5,7 +5,7 @@ import 'package:gpa_galaxy/widget/activities_screen/add_activity_dialog.dart';
 import 'package:gpa_galaxy/widget/grades_screen/add_grade_dialog.dart';
 
 class LayoutContentItems extends StatelessWidget {
-  LayoutContentItems({
+  const LayoutContentItems({
     super.key,
     required this.screen,
     required this.title,
@@ -14,7 +14,6 @@ class LayoutContentItems extends StatelessWidget {
     this.content = const [],
   });
 
-  final util = Util();
   final String title;
   final Grade grade;
   final String screen;
@@ -60,7 +59,7 @@ class LayoutContentItems extends StatelessWidget {
         items.add(Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(util.getActionFromScreenName(screen), style: style),
+            Text(Util.getActionFromScreenName(screen), style: style),
           ],
         ));
         return items;

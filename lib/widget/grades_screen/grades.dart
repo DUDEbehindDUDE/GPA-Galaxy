@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/math.dart';
+import 'package:gpa_galaxy/class/util.dart';
 import 'package:gpa_galaxy/generics/type_adapters/class.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -35,14 +36,7 @@ Unweighted GPA: ${calcGPA(weighted: false)}
     Profile profile = profileBox.get(widget.profile)!;
 
     // Get all the classes out of the database
-    List<Class> allClasses = [];
-    profile.academics.forEach((key, semesters) {
-      semesters.forEach((key, classes) {
-        for (var item in classes) {
-          allClasses.add(item);
-        }
-      });
-    });
+    List<Class> allClasses = Util.getAllClasses(profile);
 
     for (var item in allClasses) {
       // the min is so 100 doesn't count as a 5.0 gpa,
