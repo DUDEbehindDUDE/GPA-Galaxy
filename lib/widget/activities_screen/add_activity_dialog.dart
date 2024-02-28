@@ -33,19 +33,6 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
 
   var profileBox = Hive.box<Profile>("profiles");
 
-  void _validateInput() {
-    setState(() {
-      hrsPerWkErrorText ??= ValidationHelper.validateItemErrorText(
-          text: hrsPerWk.toString(), type: double, min: 0, max: 40);
-      totalWeeksErrorText ??= ValidationHelper.validateItemErrorText(
-          text: totalWeeks.toString(), type: int, min: 1, max: 52);
-      activityNameErrorText ??=
-          ValidationHelper.validateItemErrorText(text: activityName);
-      dateStartedErrorText ??=
-          ValidationHelper.validateItemErrorText(text: dateStarted);
-    });
-  }
-
   bool _checkIfNull() {
     if (hrsPerWk == null) return true;
     if (totalWeeks == null) return true;

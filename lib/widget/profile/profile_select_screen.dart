@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
+import 'package:gpa_galaxy/widget/info/info_index.dart';
 import 'package:gpa_galaxy/widget/profile/create_profile_dialog.dart';
 import 'package:gpa_galaxy/widget/layout/layout.dart';
 import 'package:gpa_galaxy/widget/profile/delete_profile_dialog.dart';
@@ -109,34 +110,57 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
         iconTheme: const IconThemeData(size: 28, color: Colors.white),
       ),
       persistentFooterButtons: [
-        // Edit button
-        TextButton(
-          // set this to null if nothing is selected, which disables button
-          onPressed: selected == null ? null : () {},
-          child: const Text("Edit"),
-        ),
-        // Delete Profile Button
-        TextButton(
-          // set this to null if nothing is selected, which disables button
-          onPressed: selected == null
-              ? null
-              : () async {
-                  await showDialog(
+        // This is wrapped in a row to make it so that the info icon can float left, and everything else can float right
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (ctx) => InfoIndex()),
+              ),
+              icon: const Icon(Icons.info_outlined),
+            ),
+            const Spacer(),
+
+            // Edit Button
+            TextButton(
+              // set this to null if nothing is selected, which disables button
+              onPressed: selected == null ? null : () {},
+              child: const Text("Edit"),
+            ),
+
+            // Delete Profile Button
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: TextButton(
+                // set this to null if nothing is selected, which disables button
+                onPressed: selected == null
+                    ? null
+                    : () async {
+                        await showDialog(
+                          context: context,
+                          builder: (context) =>
+                              DeleteProfileDialog(profile: selected!),
+                        );
+                        _setSelected(null);
+                      },
+                child: const Text("Delete"),
+              ),
+            ),
+
+            // New profile button
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: FilledButton(
+                child: const Text("New"),
+                onPressed: () => showDialog(
                     context: context,
-                    builder: (context) =>
-                        DeleteProfileDialog(profile: selected!),
-                  );
-                  _setSelected(null);
-                },
-          child: const Text("Delete"),
-        ),
-        // New profile button
-        FilledButton(
-          child: const Text("New"),
-          onPressed: () => showDialog(
-              context: context,
-              builder: (context) => const CreateProfileDialog()),
-        ),
+                    builder: (context) => const CreateProfileDialog()),
+              ),
+            )
+          ],
+        )
       ],
       body: ValueListenableBuilder<Box>(
         valueListenable: profileBox.listenable(),

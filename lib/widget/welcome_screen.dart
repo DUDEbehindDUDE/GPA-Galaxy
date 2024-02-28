@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gpa_galaxy/widget/info/index.dart';
+import 'package:gpa_galaxy/widget/info/info_index.dart';
 import 'package:gpa_galaxy/widget/profile/profile_select_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -17,7 +17,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         IconButton(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (ctx) => const Index()),
+            MaterialPageRoute(builder: (ctx) => InfoIndex()),
           ),
           icon: const Icon(Icons.info_outlined),
         ),
