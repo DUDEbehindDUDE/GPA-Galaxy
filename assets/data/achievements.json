@@ -2,12 +2,28 @@
     "academic": [
         {
             "name": "Building up the Galaxy",
-            "description": "Log your first grade!",
+            "description": "Log your first grade",
             "additionalDescriptions": [
-                "Log a semester's worth of grades!"
+                "Complete your first semester",
+                "Complete your freshman year",
+                "Complete S1 of your sophomore year",
+                "Complete your sophomore year",
+                "Complete S1 of your junior year",
+                "Complete your junior year",
+                "Complete S1 of your senior year. Don't get senioritis now; you're almost there!",
+                "Complete High School"
             ],
             "upgradable": true,
-            "dependent": "classAmount",
+            "dependent": "semesterHasFourClasses",
+            "levelCap": 8,
+            "levelStart": 0,
+            "levelRequirements": [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        },
+        {
+            "name": "Wow you earned so many A's!",
+            "description": "Get an A in a class",
+            "upgradable": true,
+            "dependent": "aAmount",
             "levelCap": 8,
             "levelStart": 0,
             "levelRequirements": [1, 4, 8, 12, 16, 20, 24, 28, 32]

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/achievement_helper.dart';
 import 'package:gpa_galaxy/generics/achievements.dart';
+import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:gpa_galaxy/widget/grades_screen/grades.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'layout_content.dart';
@@ -17,7 +17,7 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> {
-  var profileBox = Hive.box("profiles");
+  var profileBox = Hive.box<Profile>("profiles");
   int _selectedIndex = 0;
   String _title = "Grades";
   late Widget _content;
@@ -37,14 +37,14 @@ class _LayoutState extends State<Layout> {
       _content = switch (index) {
         0 => LayoutContent(screen: "grades", profile: widget.profile),
         1 => LayoutContent(screen: "activities", profile: widget.profile),
-        2 => const Text(""), // empty element
-        3 => const Text(""), // empty element
+        2 => const SizedBox(), // empty element
+        3 => const SizedBox(), // empty element
         _ => throw ("$index not in range"),
       };
 
       _additionalContent = switch (index) {
         0 => Grades(profile: widget.profile),
-        1 || 2 || 3 => const Text(""), // empty element
+        1 || 2 || 3 => const SizedBox(), // empty element
         _ => throw ("$index not in range"),
       };
     });
@@ -52,7 +52,12 @@ class _LayoutState extends State<Layout> {
 
   @override
   Widget build(BuildContext context) {
+    // Get profile object
+    Profile profile = profileBox.get(widget.profile)!;
+    // Get selected index (_content might not be initialized if we don't)
     _onDestinationSelected(_selectedIndex);
+
+    // main profile scaffold
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -76,10 +81,10 @@ class _LayoutState extends State<Layout> {
               ValueListenableBuilder(
                 valueListenable: profileBox.listenable(),
                 builder: (context, box, widget) {
-                  AchievementHelper.getNewAchievements(context);
+                  AchievementHelper.getNewAchievements(profile, context, _onDestinationSelected);
 
-                  // we don't need to return anything, so we will just have an empty text widget
-                  return const Text("");
+                  // we don't need to return anything, but we can't return null, so here is an empty widget
+                  return const SizedBox();
                 },
               )
             ],
@@ -87,9 +92,7 @@ class _LayoutState extends State<Layout> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Hive.box(_screenNames[_selectedIndex].toLowerCase()).clear();
-        },
+        onPressed: () {},
         child: const Icon(Icons.edit_outlined),
       ),
       bottomNavigationBar: NavigationBar(
