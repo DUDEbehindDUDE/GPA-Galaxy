@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/generics/type_adapters/activity.dart';
 import 'package:gpa_galaxy/generics/type_adapters/class.dart';
+import 'package:gpa_galaxy/generics/type_adapters/earned_achievement.dart';
 import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
@@ -17,6 +18,7 @@ void main() async {
   Hive.registerAdapter(ProfileAdapter());
   Hive.registerAdapter(SemesterAdapter());
   Hive.registerAdapter(GradeAdapter());
+  Hive.registerAdapter(EarnedAchievementAdapter());
   // open boxes
   await Hive.openBox("appConfig");
   await Hive.openBox<Profile>("profiles");

@@ -1,3 +1,4 @@
+import 'package:gpa_galaxy/generics/type_adapters/earned_achievement.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'activity.dart';
@@ -20,7 +21,7 @@ class Profile {
   Map<Grade, List<Volunteer>> volunteering;
   
   @HiveField(3)
-  List<String> unlockedAchievements;
+  Map<String, List<EarnedAchievement>> unlockedAchievements;
 
   Profile({
     required this.academics,

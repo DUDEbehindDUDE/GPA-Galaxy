@@ -1,15 +1,18 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gpa_galaxy/class/util.dart';
 import 'package:gpa_galaxy/generics/achievements.dart';
+import 'package:gpa_galaxy/generics/type_adapters/earned_achievement.dart';
 import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
 
 class AchievementHelper {
+  /// Loads the json from assets/data/achievements.json, and parses it into a
+  /// [Map<String, List<Achievements>>] object, where the key is the category.
   static Future<Map<String, List<Achievements>>> loadJson() async {
     var data = await rootBundle.loadString(
       'assets/data/achievements.json',
@@ -47,7 +50,9 @@ class AchievementHelper {
     return achievementMap;
   }
 
-  // how many classes are >= the grade in the profile
+  /// Returns how many classes are >= grade in profile. Example: profile contains classes
+  /// with grades 89, 90, 92, 80, 79. [howManyAboveGrade(90, profile)] returns 2;
+  /// [howManyAboveGrade(80, profile)] returns 4.
   static int howManyAboveGrade(int grade, Profile profile) {
     var classes = Util.getAllClasses(profile);
     int amount = 0;
@@ -60,6 +65,8 @@ class AchievementHelper {
     return amount;
   }
 
+  /// Returns how many semesters the user has fully logged. Returns 0 if they have logged
+  /// at least one class; otherwise, if the user has logged no classes, returns -1.
   static int howManySemestersLogged(Profile profile) {
     var classes = Util.getAllClasses(profile);
     // return -1 if you wouldn't have the achievement, 0 if you would get level 0
@@ -79,17 +86,20 @@ class AchievementHelper {
     return amount;
   }
 
-  static num getAchievementVariable(String name, Profile profile) {
-    // gets the variable associated with the dependent in the json
-    return switch (name) {
+  /// This returns the variable associated with the dependent based on the profile.
+  static num getAchievementVariable(String dependent, Profile profile) {
+    return switch (dependent) {
       "aAmount" => howManyAboveGrade(90, profile),
       "bAmount" => howManyAboveGrade(80, profile),
       "semesterHasFourClasses" => howManySemestersLogged(profile),
-      _ => throw ("Variable $name not valid!")
+      _ => throw ("Variable $dependent not valid!")
     };
   }
 
-  static void getNewAchievements(
+  /// Returns all the achievements that are earned, and if any are any new achievements
+  /// or achievements that have leveled up, it will display a snackbar saying that they have
+  /// been earned. Returns null if BuildContext is invalid, or if nothing has changed.
+  static Future<Map<String, List<EarnedAchievement>>?> updateEarnedAchievements(
     Profile profile,
     BuildContext ctx,
     Function(int) goToScreen,
@@ -99,61 +109,128 @@ class AchievementHelper {
 
     // check if BuildContext is still valid since there is an async above
     if (!ctx.mounted) {
-      return;
+      return null;
     }
 
     // Calculate all the achievements
-    Map<String, Map<String, int>> newAchievements = {};
+    Map<String, List<EarnedAchievement>> allEarnedAchievements = {};
     allAchievements.forEach((category, achievements) {
       for (var achievement in achievements) {
         num dependentValue =
             getAchievementVariable(achievement.dependent, profile);
 
-        int level = 0;
+        int level = -1;
         for (int item in achievement.requirements) {
           if (item > dependentValue) break;
           level++;
         }
-        // if level is less than 1, the achievement hasn't been earned
-        if (level == 0) continue;
+        // if level is still -1, the achievement hasn't been earned
+        if (level == -1) continue;
+
+        // get description
+        String desc = getDesc(achievement, level);
 
         // add level start
-        level += achievement.levelStart - 1;
+        level += achievement.levelStart;
 
         // add achievement to map
-        newAchievements[category] ??= {}; // initialize if null
-        newAchievements[category]![achievement.name] = level;
-
-        // display snackbar for new achievements
-        int? snackbarLevel = achievement.upgradable ? level : null;
-        showSnackbar(ctx, achievement.name, snackbarLevel,
-            achievement.levelStart, goToScreen);
+        allEarnedAchievements[category] ??= []; // initialize if null
+        allEarnedAchievements[category]!.add(EarnedAchievement(
+          name: achievement.name,
+          desc: desc,
+          upgradable: achievement.upgradable,
+          level: level,
+          startingLevel: achievement.levelStart,
+          levelCap: achievement.levelCap,
+        ));
       }
     });
+
+    // check and display new achievements
+    var newAchievements = getNewAchievementList(allEarnedAchievements, profile);
+    // this return keeps everything from constantly rerendering
+    if (newAchievements.isEmpty) return null;
+    renderAchievementSnackbars(ctx, newAchievements, goToScreen);
+
+    return allEarnedAchievements;
   }
 
-  static void showSnackbar(
+  /// Checks if each achievement in allEarnedAchievements is present in profile. If it isn't,
+  /// it is added to the returned [List<EarnedAchievement>].
+  static List<EarnedAchievement> getNewAchievementList(
+    Map<String, List<EarnedAchievement>> allEarnedAchievements,
+    Profile profile,
+  ) {
+    var profileAchievements = profile.unlockedAchievements;
+
+    // initialize empty array
+    List<EarnedAchievement> newAchievements = [];
+
+    // check if the achievement has been earned already, and if not, add it to newAchievements
+    allEarnedAchievements.forEach((category, achievements) {
+      for (var achievement in achievements) {
+        if (!(profileAchievements[category] ?? []).contains(achievement)) {
+          newAchievements.add(achievement);
+        }
+      }
+    });
+
+    return newAchievements;
+  }
+
+  /// Gets the description of an achievement based on the current level
+  static String getDesc(Achievements achievement, int level) {
+    if (level == 0 || achievement.additionalDesc == null) {
+      return achievement.desc;
+    }
+
+    var descriptions = achievement.additionalDesc!;
+    if (descriptions.isEmpty) return achievement.desc;
+
+    // if you have level 1, description would be additionalDesc[0], etc
+    return descriptions[min(level, descriptions.length) - 1];
+  }
+
+  /// Calls [displayAchievementSnackbar()] for each achievement given. Used to
+  /// show snackbars for all new achievements.
+  static void renderAchievementSnackbars(
     BuildContext ctx,
-    String achievement,
-    int? level,
-    int? startingLevel,
+    List<EarnedAchievement> achievements,
     Function(int) goToScreen,
   ) {
     // get achievement text
-    String achievementMainText;
-    String achievementSecondaryText;
-    if (level != null && startingLevel != null) {
-      achievementMainText = level == startingLevel
-          ? "You earned a new achievement!"
-          : "You leveled up an achievement!";
-      achievementSecondaryText = level == startingLevel
-          ? achievement
-          : "$achievement is now level $level";
-    } else {
-      achievementMainText = "You earned a new achievement!";
-      achievementSecondaryText = achievement;
-    }
+    for (var achievement in achievements) {
+      String achievementMainText;
+      String achievementSecondaryText;
 
+      // get flavor text
+      if (!achievement.upgradable ||
+          achievement.startingLevel == achievement.level) {
+        achievementMainText = "You earned a new achievement!";
+        achievementSecondaryText = "${achievement.name}: ${achievement.desc}";
+      } else {
+        achievementMainText = "You leveled up an achievement!";
+        achievementSecondaryText =
+            "${achievement.name} is now level ${achievement.level}";
+      }
+      // display snackbar
+      displayAchievementSnackbar(
+        achievementMainText,
+        achievementSecondaryText,
+        ctx,
+        goToScreen,
+      );
+    }
+  }
+
+  /// Displays a snackbar with primary and secondary text, and with an action that, when
+  /// clicked, goes to the achievement screen (runs goToScreen(3))
+  static void displayAchievementSnackbar(
+    String mainText,
+    String secondaryText,
+    BuildContext ctx,
+    Function(int) goToScreen,
+  ) {
     // prevents error from snackbar being rendered on build
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // create snackbar from BuildContext
@@ -163,6 +240,7 @@ class AchievementHelper {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(100)),
           ),
+          dismissDirection: DismissDirection.horizontal,
           content: Column(
             children: [
               Row(
@@ -176,9 +254,9 @@ class AchievementHelper {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(achievementMainText, textAlign: TextAlign.left),
+                        Text(mainText, textAlign: TextAlign.left),
                         Text(
-                          achievementSecondaryText,
+                          secondaryText,
                           textAlign: TextAlign.left,
                           style: const TextStyle(fontStyle: FontStyle.italic),
                         ),
@@ -192,7 +270,13 @@ class AchievementHelper {
           action: SnackBarAction(
             label: "View",
             // go to achievements screen when you click the action
-            onPressed: () => goToScreen(3),
+            onPressed: () {
+              // we have to check if the context is still mounted, because if it's not the user
+              // has gone to a different screen and this will cause an exception
+              if (ctx.mounted) {
+                goToScreen(3);
+              }
+            },
           ),
         ),
       );

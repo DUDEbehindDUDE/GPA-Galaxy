@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/validation_helper.dart';
+import 'package:gpa_galaxy/generics/type_adapters/earned_achievement.dart';
 import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
 import 'package:gpa_galaxy/generics/type_adapters/activity.dart';
 import 'package:gpa_galaxy/generics/type_adapters/class.dart';
@@ -36,7 +37,7 @@ class _CreateProfileDialogState extends State<CreateProfileDialog> {
       academics: <Grade, Map<Semester, List<Class>>> {},
       activities: <Grade, List<Activity>> {},
       volunteering: <Grade, List<Volunteer>> {},
-      unlockedAchievements: <String> [],
+      unlockedAchievements: <String, List<EarnedAchievement>> {},
     );
 
     profileBox.put(profileName, newProfile);

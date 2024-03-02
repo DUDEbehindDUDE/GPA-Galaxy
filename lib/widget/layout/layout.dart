@@ -50,10 +50,28 @@ class _LayoutState extends State<Layout> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  void _updateAchievements(BuildContext context) async {
     // Get profile object
     Profile profile = profileBox.get(widget.profile)!;
+
+    // get all the earned achievements
+    var newAchievements = await AchievementHelper.updateEarnedAchievements(
+      profile,
+      context,
+      _onDestinationSelected,
+    );
+
+    // if it was invalid we don't want to update anything
+    if (newAchievements == null) return;
+
+    // update box
+    Profile newProfile = profile;
+    newProfile.unlockedAchievements = newAchievements;
+    profileBox.put(widget.profile, newProfile);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // Get selected index (_content might not be initialized if we don't)
     _onDestinationSelected(_selectedIndex);
 
@@ -81,7 +99,7 @@ class _LayoutState extends State<Layout> {
               ValueListenableBuilder(
                 valueListenable: profileBox.listenable(),
                 builder: (context, box, widget) {
-                  AchievementHelper.getNewAchievements(profile, context, _onDestinationSelected);
+                  _updateAchievements(context);
 
                   // we don't need to return anything, but we can't return null, so here is an empty widget
                   return const SizedBox();
