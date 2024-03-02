@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gpa_galaxy/class/achievement_helper.dart';
 import 'package:gpa_galaxy/generics/achievements.dart';
 import 'package:gpa_galaxy/widget/grades_screen/grades.dart';
 import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'layout_content.dart';
 
@@ -15,6 +17,7 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> {
+  var profileBox = Hive.box("profiles");
   int _selectedIndex = 0;
   String _title = "Grades";
   late Widget _content;
@@ -25,7 +28,7 @@ class _LayoutState extends State<Layout> {
     "Volunteer Hours",
     "Achievements"
   ];
-  var achievement = Achievements(name: "hello", desc: "desc", dependent: "variable", requirements: [1]);
+  // Map<String, Achievements> achievements = Achievements(name: "hello", desc: "desc", dependent: "variable", requirements: [1]);
   void _onDestinationSelected(int index) {
     setState(() {
       _selectedIndex = index;
@@ -34,12 +37,15 @@ class _LayoutState extends State<Layout> {
       _content = switch (index) {
         0 => LayoutContent(screen: "grades", profile: widget.profile),
         1 => LayoutContent(screen: "activities", profile: widget.profile),
-        _ => const Text(""), // empty element
+        2 => const Text(""), // empty element
+        3 => const Text(""), // empty element
+        _ => throw ("$index not in range"),
       };
 
       _additionalContent = switch (index) {
         0 => Grades(profile: widget.profile),
-        _ => const Text(""), // empty element
+        1 || 2 || 3 => const Text(""), // empty element
+        _ => throw ("$index not in range"),
       };
     });
   }
@@ -65,6 +71,17 @@ class _LayoutState extends State<Layout> {
               _additionalContent,
               // extra padding on the bottom so edit button isn't gonna block anything
               const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
+
+              // Check for new achievements when the box changes
+              ValueListenableBuilder(
+                valueListenable: profileBox.listenable(),
+                builder: (context, box, widget) {
+                  AchievementHelper.getNewAchievements(context);
+
+                  // we don't need to return anything, so we will just have an empty text widget
+                  return const Text("");
+                },
+              )
             ],
           ),
         ),
