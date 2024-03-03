@@ -83,7 +83,7 @@ class LayoutContentItems extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.only(left: 8, right: 14),
               child: Text(secondaryText, style: style),
             ),
           ],

@@ -13,41 +13,55 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
-        IconButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (ctx) => InfoIndex()),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background Image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/galaxy2.png',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.none,
+            ),
           ),
-          icon: const Icon(Icons.info_outlined),
-        ),
-      ],
-      persistentFooterAlignment: AlignmentDirectional.bottomStart,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.only(left: 16, right: 16, bottom: 120),
-              child: Text(
-                "Welcome to GPA Galaxy!",
-                style: TextStyle(fontSize: 48),
-                textAlign: TextAlign.center,
+          Positioned(
+            bottom: 8,
+            left: 8,
+            child: IconButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (ctx) => InfoIndex()),
               ),
+              icon: const Icon(Icons.info_outlined),
             ),
-            FilledButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (ctx) => const ProfileSelectScreen(),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.only(left: 16, right: 16, bottom: 120),
+                  child: Text(
+                    "Welcome to GPA Galaxy!",
+                    style: TextStyle(fontSize: 48),
+                    textAlign: TextAlign.center,
                   ),
-                );
-              },
-              child: const Text("Get Started"),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctx) => const ProfileSelectScreen(),
+                      ),
+                    );
+                  },
+                  child: const Text("Get Started"),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

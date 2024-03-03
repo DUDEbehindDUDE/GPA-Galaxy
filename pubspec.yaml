@@ -73,6 +73,9 @@ flutter:
 
   assets:
      - assets/data/achievements.json
+     - assets/images/logo.png
+     - assets/images/galaxy1.png
+     - assets/images/galaxy2.png
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

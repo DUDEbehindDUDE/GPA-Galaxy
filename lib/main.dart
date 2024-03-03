@@ -40,7 +40,7 @@ class _GPAGalaxyState extends State<GPAGalaxy> {
       title: 'GPA Galaxy',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 100, 66, 255),
+          seedColor: const Color.fromARGB(255, 16, 0, 22),
           brightness: Brightness.dark,
         ),
         useMaterial3: true,

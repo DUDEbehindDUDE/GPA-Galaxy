@@ -74,46 +74,66 @@ class _LayoutState extends State<Layout> {
   Widget build(BuildContext context) {
     // Get selected index (_content might not be initialized if we don't)
     _onDestinationSelected(_selectedIndex);
+    Color bgColor = const Color.fromARGB(180, 16, 0, 22);
+    Color accentColor = const Color.fromARGB(180, 66, 33, 78);
 
     // main profile scaffold
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: Text(
           _title,
           style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 30),
         ),
         iconTheme: const IconThemeData(size: 28, color: Colors.white),
+        backgroundColor: bgColor,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _content,
-              const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-              _additionalContent,
-              // extra padding on the bottom so edit button isn't gonna block anything
-              const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
-
-              // Check for new achievements when the box changes
-              ValueListenableBuilder(
-                valueListenable: profileBox.listenable(),
-                builder: (context, box, widget) {
-                  _updateAchievements(context);
-
-                  // we don't need to return anything, but we can't return null, so here is an empty widget
-                  return const SizedBox();
-                },
-              )
-            ],
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background Image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/galaxy2.png',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.none,
+            ),
           ),
-        ),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, top: 76, right: 2),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _content,
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                  _additionalContent,
+                  // extra padding on the bottom so edit button isn't gonna block anything
+                  const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
+
+                  // Check for new achievements when the box changes
+                  ValueListenableBuilder(
+                    valueListenable: profileBox.listenable(),
+                    builder: (context, box, widget) {
+                      _updateAchievements(context);
+
+                      // we don't need to return anything, but we can't return null, so here is an empty widget
+                      return const SizedBox();
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: const Icon(Icons.edit_outlined),
       ),
       bottomNavigationBar: NavigationBar(
+        backgroundColor: bgColor,
+        elevation: 0,
+        indicatorColor: accentColor,
         selectedIndex: _selectedIndex,
         onDestinationSelected: _onDestinationSelected,
         destinations: const [

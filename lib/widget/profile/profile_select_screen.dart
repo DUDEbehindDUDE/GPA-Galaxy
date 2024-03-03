@@ -101,8 +101,11 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Color bgColor = const Color.fromARGB(180, 16, 0, 22);
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        backgroundColor: bgColor,
         title: const Text(
           "Select a Profile",
           style: TextStyle(fontWeight: FontWeight.w500, fontSize: 30),
@@ -162,18 +165,31 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
           ],
         )
       ],
-      body: ValueListenableBuilder<Box>(
-        valueListenable: profileBox.listenable(),
-        builder: (content, box, widget) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: _getProfileSelections(),
-              ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background Image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/galaxy1.png',
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.none,
             ),
-          );
-        },
+          ),
+          ValueListenableBuilder<Box>(
+            valueListenable: profileBox.listenable(),
+            builder: (content, box, widget) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 92),
+                  child: Column(
+                    children: _getProfileSelections(),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
