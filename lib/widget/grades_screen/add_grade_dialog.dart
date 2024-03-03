@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:gpa_galaxy/class/util.dart';
+import 'package:gpa_galaxy/class/validation_helper.dart';
 import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
 import 'package:gpa_galaxy/generics/type_adapters/class.dart';
 import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
@@ -45,6 +47,23 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
     return "e.g. ${classes[Random().nextInt(classes.length - 1)]}";
   }
 
+  /// Checks if there is already a class with the same name present in the semester
+  void _checkIfNameTaken() {
+    var name = className;
+    if (name == null) return;
+
+    var classesInSemester = Util.getClassesInSemester(profileBox.get(widget.profile)!, widget.grade, semester);
+    for (var item in classesInSemester) {
+      if (item.className == name) {
+        classNameErrorText = "Class name is already taken in semester";
+        return;
+      }
+    }
+    if (classNameErrorText == "Class name is already taken in semester") {
+      classNameErrorText = null;
+    }
+  }
+
   void _addItem() {
     Profile newProfile = profileBox.get(widget.profile)!;
     Class item =
@@ -62,70 +81,6 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
     profileBox.put(widget.profile, newProfile);
   }
 
-  void _validateInput(String? value, String field) {
-    if (value == null || value.toString().isEmpty) {
-      _setInput("Field cannot be empty", "${field}ErrorText");
-      _setInput(null, field);
-      return;
-    }
-    if (value.length > 50) {
-      _setInput("Field exceeds character limit (${value.length}/50)",
-          "${field}ErrorText");
-      _setInput(null, field);
-      return;
-    }
-    if (field == "grade") {
-      int? number = int.tryParse(value);
-      if (number == null) {
-        _setInput(
-            "Field must be a number between 0 and 100", "${field}ErrorText");
-        _setInput(null, field);
-        return;
-      }
-
-      if (number > 100 || number < 0) {
-        _setInput(
-            "Field must be a number between 0 and 100", "${field}ErrorText");
-        _setInput(null, field);
-        return;
-      }
-
-      _setInput(null, "${field}ErrorText");
-      _setInput(number, field);
-      return;
-    }
-    if (field == "className") {
-      var lowerValue = value.toLowerCase();
-      if (lowerValue.contains("honors")) {
-        classWeight = 0.5;
-      }
-      if (lowerValue.contains("ap") || lowerValue.contains("ib")) {
-        classWeight = 1.0;
-      }
-    }
-    _setInput(null, "${field}ErrorText");
-    _setInput(value, field);
-  }
-
-  void _setInput(input, field) {
-    setState(() {
-      switch (field) {
-        case "grade":
-          grade = input;
-          break;
-        case "gradeErrorText":
-          gradeErrorText = input;
-          break;
-        case "className":
-          className = input;
-          break;
-        case "classNameErrorText":
-          classNameErrorText = input;
-          break;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -138,7 +93,12 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               TextField(
-                onChanged: (value) => _validateInput(value, "className"),
+                onChanged: (value) => setState(() {
+                  className = ValidationHelper.validateItem(text: value);
+                  classNameErrorText =
+                      ValidationHelper.validateItemErrorText(text: value);
+                  _checkIfNameTaken();
+                }),
                 decoration: InputDecoration(
                   labelText: "Class Name",
                   errorText: classNameErrorText,
@@ -197,12 +157,18 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
                   selected: <Semester>{semester},
                   onSelectionChanged: (selection) => setState(() {
                     semester = selection.first;
+                    _checkIfNameTaken();
                   }),
                 ),
               ),
               const Padding(padding: EdgeInsets.all(15)),
               TextField(
-                onChanged: (value) => _validateInput(value, "grade"),
+                onChanged: (value) => {
+                  setState(() {
+                    grade = ValidationHelper.validateItem(text: value, min: 0, max: 100, type: int);
+                    gradeErrorText = ValidationHelper.validateItemErrorText(text: value, min: 0, max: 100, type: int);
+                  })
+                },
                 decoration: InputDecoration(
                   labelText: "Grade",
                   filled: true,
@@ -223,7 +189,7 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
         ),
         FilledButton(
           // grey out this option if things are invalid as per material 3 guidelines
-          onPressed: (className == null || grade == null)
+          onPressed: (className == null || grade == null || classNameErrorText != null)
               ? null
               : () {
                   _addItem();

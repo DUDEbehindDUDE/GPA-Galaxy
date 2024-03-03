@@ -76,6 +76,17 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
     profileBox.put(widget.profile, newProfile);
   }
 
+  void _checkIfNameTaken(name) {
+    var activities = profileBox.get(widget.profile)!.activities[widget.grade];
+    if (activities == null) return;
+    for (var activity in activities) {
+      if (activity.name == name) {
+        activityName = null;
+        activityNameErrorText = "Activity name already taken";
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -92,6 +103,7 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
                   activityName = ValidationHelper.validateItem(text: value);
                   activityNameErrorText =
                       ValidationHelper.validateItemErrorText(text: value);
+                  _checkIfNameTaken(value);
                 });
               },
               decoration: InputDecoration(
