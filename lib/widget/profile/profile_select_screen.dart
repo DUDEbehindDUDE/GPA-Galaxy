@@ -39,23 +39,31 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
     if (profiles.isEmpty) {
       profiles.add(const Center(
         child: Padding(
-          padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 32.0),
-          child: Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(right: 16.0),
-                child: Icon(
-                  Icons.info_outline,
-                  color: Colors.grey,
-                ),
+          padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 32.0),
+          child: Card.outlined(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
+            color: Color.fromARGB(248, 44, 19, 53),
+            child: Padding(
+              padding:
+                  EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 16.0),
+                    child: Icon(
+                      Icons.info_outline,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(
+                      "It looks like you haven't made a profile yet. Tap 'New' below to create one.",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+                ],
               ),
-              Flexible(
-                child: Text(
-                  "It looks like you haven't made a profile yet. Tap 'New' below to create one.",
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ));
@@ -63,9 +71,20 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
       profiles.add(Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: (profileBox.keys.isNotEmpty)
-            ? const Text(
-                "Long press on an item for more actions",
-                style: TextStyle(color: Colors.grey),
+            ? Container(
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(50, 0, 0, 0),
+                  borderRadius:
+                      BorderRadius.circular(6.0), // Set desired radius
+                ),
+                child: const Padding(
+                  padding:
+                      EdgeInsets.only(left: 4, right: 4, top: 1, bottom: 1),
+                  child: Text(
+                    "Long press on an item for more actions",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ),
               )
             : null,
       ));
@@ -181,7 +200,8 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
             builder: (content, box, widget) {
               return SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 92),
+                  padding:
+                      const EdgeInsets.only(left: 8.0, right: 8.0, top: 92),
                   child: Column(
                     children: _getProfileSelections(),
                   ),
