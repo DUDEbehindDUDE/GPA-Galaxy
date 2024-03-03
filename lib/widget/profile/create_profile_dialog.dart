@@ -82,7 +82,7 @@ class _CreateProfileDialogState extends State<CreateProfileDialog> {
             Navigator.pop(context, "Create");
           },
           child: const Text("Create"),
-        )
+        ),
       ],
     );
   }

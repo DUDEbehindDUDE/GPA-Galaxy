@@ -4,6 +4,7 @@ import 'package:gpa_galaxy/widget/info/info_index.dart';
 import 'package:gpa_galaxy/widget/profile/create_profile_dialog.dart';
 import 'package:gpa_galaxy/widget/layout/layout.dart';
 import 'package:gpa_galaxy/widget/profile/delete_profile_dialog.dart';
+import 'package:gpa_galaxy/widget/profile/edit_profile_dialog.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ProfileSelectScreen extends StatefulWidget {
@@ -121,7 +122,8 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double topPadding = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
+    double topPadding =
+        MediaQuery.of(context).padding.top + kToolbarHeight + 16;
     Color bgColor = const Color.fromARGB(180, 16, 0, 22);
 
     return Scaffold(
@@ -151,7 +153,16 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
             // Edit Button
             TextButton(
               // set this to null if nothing is selected, which disables button
-              onPressed: selected == null ? null : () {},
+              onPressed: selected == null
+                  ? null
+                  : () async {
+                      await showDialog(
+                        context: context,
+                        builder: (context) =>
+                            EditProfileDialog(profile: selected!),
+                      );
+                      _setSelected(null);
+                    },
               child: const Text("Edit"),
             ),
 
