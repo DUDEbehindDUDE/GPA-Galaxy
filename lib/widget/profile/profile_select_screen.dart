@@ -41,11 +41,12 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
         child: Padding(
           padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 32.0),
           child: Card.outlined(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(30))),
-            color: Color.fromARGB(248, 44, 19, 53),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+            color: Color.fromARGB(209, 26, 14, 31),
             child: Padding(
-              padding:
-                  EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
+              padding: EdgeInsets.only(
+                  left: 16.0, right: 16.0, top: 8.0, bottom: 8.0),
               child: Row(
                 children: [
                   Padding(
@@ -120,7 +121,9 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double topPadding = MediaQuery.of(context).padding.top + kToolbarHeight + 16;
     Color bgColor = const Color.fromARGB(180, 16, 0, 22);
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -201,7 +204,7 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
               return SingleChildScrollView(
                 child: Padding(
                   padding:
-                      const EdgeInsets.only(left: 8.0, right: 8.0, top: 92),
+                      EdgeInsets.only(left: 8.0, right: 8.0, top: topPadding),
                   child: Column(
                     children: _getProfileSelections(),
                   ),

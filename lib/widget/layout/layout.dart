@@ -76,7 +76,8 @@ class _LayoutState extends State<Layout> {
     _onDestinationSelected(_selectedIndex);
     Color bgColor = const Color.fromARGB(180, 16, 0, 22);
     Color accentColor = const Color.fromARGB(180, 66, 33, 78);
-
+    double topPadding = MediaQuery.of(context).padding.top + kToolbarHeight;
+    
     // main profile scaffold
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -100,7 +101,7 @@ class _LayoutState extends State<Layout> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, top: 76, right: 2),
+            padding: EdgeInsets.only(left: 16, top: topPadding, right: 2),
             child: SingleChildScrollView(
               child: Column(
                 children: [
