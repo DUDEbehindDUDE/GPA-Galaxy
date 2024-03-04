@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/achievement_helper.dart';
 import 'package:gpa_galaxy/generics/achievements.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
+import 'package:gpa_galaxy/widget/grades_screen/edit_dialog.dart';
 import 'package:gpa_galaxy/widget/grades_screen/grades.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -70,6 +71,10 @@ class _LayoutState extends State<Layout> {
     profileBox.put(widget.profile, newProfile);
   }
 
+  _showEditDialog(BuildContext ctx) {
+    showDialog(context: context, builder: (context) => EditDialog(profile: widget.profile));
+  }
+
   @override
   Widget build(BuildContext context) {
     // Get selected index (_content might not be initialized if we don't)
@@ -128,7 +133,7 @@ class _LayoutState extends State<Layout> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () => _showEditDialog(context),
         child: const Icon(Icons.edit_outlined),
       ),
       bottomNavigationBar: NavigationBar(

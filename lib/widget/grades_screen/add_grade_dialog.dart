@@ -64,6 +64,22 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
     }
   }
 
+  /// If we can infer from [text] that it's an AP or Honors class, this sets the weight to be that
+  void _autofillClassWeight(String? text) {
+    if (text == null) return;
+    text = text.toLowerCase();
+
+    if (text.contains("ap") || text.contains("ib")) {
+      classWeight = 1.0;
+      return;
+    }
+
+    if (text.contains("honors")) {
+      classWeight = 0.5;
+      return;
+    }
+  }
+
   void _addItem() {
     Profile newProfile = profileBox.get(widget.profile)!;
     Class item =
@@ -98,6 +114,7 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
                   classNameErrorText =
                       ValidationHelper.validateItemErrorText(text: value);
                   _checkIfNameTaken();
+                  _autofillClassWeight(value);
                 }),
                 decoration: InputDecoration(
                   labelText: "Class Name",
@@ -106,7 +123,7 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
                   hintText: _randomClassName(),
                 ),
               ),
-              const Padding(padding: EdgeInsets.all(5)),
+              const Padding(padding: EdgeInsets.all(4)),
               Center(
                 child: SegmentedButton(
                   segments: const [
@@ -161,7 +178,7 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
                   }),
                 ),
               ),
-              const Padding(padding: EdgeInsets.all(15)),
+              const Padding(padding: EdgeInsets.all(8)),
               TextField(
                 onChanged: (value) => {
                   setState(() {

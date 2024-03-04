@@ -124,14 +124,19 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
                     onChanged: (value) {
                       setState(() {
                         hrsPerWk = ValidationHelper.validateItem(
-                            text: value, type: double, min: 0, max: 40);
+                          text: value,
+                          type: double,
+                          min: 0,
+                          max: 40,
+                        );
                         hrsPerWkErrorText =
                             ValidationHelper.validateItemErrorText(
-                                text: value,
-                                type: double,
-                                min: 0,
-                                max: 40,
-                                short: true);
+                          text: value,
+                          type: double,
+                          min: 0,
+                          max: 40,
+                          short: true,
+                        );
                       });
                     },
                     decoration: InputDecoration(
