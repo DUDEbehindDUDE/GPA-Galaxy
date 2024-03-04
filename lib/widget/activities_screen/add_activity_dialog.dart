@@ -90,7 +90,7 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Add an Activity"),
+      title: const Text("Add an activity"),
       content: SizedBox(
         width: 300,
         height: 200,

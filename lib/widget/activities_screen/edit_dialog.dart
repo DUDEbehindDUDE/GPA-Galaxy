@@ -144,7 +144,7 @@ class _EditDialogState extends State<EditDialog> {
           decoration: InputDecoration(
             errorText: newActivityNameErrorText,
             filled: true,
-            labelText: "Rename Activity",
+            labelText: "Rename activity",
           ),
           onChanged: (value) {
             setState(() {
@@ -167,7 +167,7 @@ class _EditDialogState extends State<EditDialog> {
                 decoration: InputDecoration(
                   errorText: newActivityHrWkErrorText,
                   filled: true,
-                  labelText: "Hrs/Wk",
+                  labelText: "Hrs/wk",
                 ),
                 onChanged: (value) {
                   setState(() {
@@ -225,7 +225,7 @@ class _EditDialogState extends State<EditDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Edit an Activity"),
+      title: const Text("Edit an activity"),
       content: SingleChildScrollView(
         child: SizedBox(
           width: 265,
