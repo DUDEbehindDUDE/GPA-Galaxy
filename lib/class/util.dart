@@ -44,4 +44,10 @@ class Util {
         getClassesInYear(profile, Grade.junior) +
         getClassesInYear(profile, Grade.senior);
   }
+
+  /// Returns a string of the date, in Month/Day format (e.g. 1/26) 
+  /// from the [dateTime] given
+  static String renderDateMD(DateTime dateTime) {
+    return "${dateTime.month}/${dateTime.day}";
+  }
 }

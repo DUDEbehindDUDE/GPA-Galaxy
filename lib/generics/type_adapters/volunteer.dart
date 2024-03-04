@@ -8,10 +8,10 @@ class Volunteer {
   String name;
 
   @HiveField(1)
-  String date;
+  DateTime date;
 
   @HiveField(2)
-  String hours;
+  double hours;
 
   Volunteer({required this.name, required this.date, required this.hours});
 }

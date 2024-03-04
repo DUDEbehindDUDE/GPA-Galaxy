@@ -18,7 +18,7 @@ class Profile {
   Map<Grade, List<Activity>> activities;
   
   @HiveField(2)
-  Map<Grade, List<Volunteer>> volunteering;
+  List<Volunteer> volunteering;
   
   @HiveField(3)
   Map<String, List<EarnedAchievement>> unlockedAchievements;

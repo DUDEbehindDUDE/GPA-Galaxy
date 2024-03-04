@@ -18,8 +18,8 @@ class VolunteerAdapter extends TypeAdapter<Volunteer> {
     };
     return Volunteer(
       name: fields[0] as String,
-      date: fields[1] as String,
-      hours: fields[2] as String,
+      date: fields[1] as DateTime,
+      hours: fields[2] as double,
     );
   }
 

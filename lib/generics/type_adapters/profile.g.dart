@@ -23,8 +23,7 @@ class ProfileAdapter extends TypeAdapter<Profile> {
               MapEntry(k as Semester, (v as List).cast<Class>())))),
       activities: (fields[1] as Map).map((dynamic k, dynamic v) =>
           MapEntry(k as Grade, (v as List).cast<Activity>())),
-      volunteering: (fields[2] as Map).map((dynamic k, dynamic v) =>
-          MapEntry(k as Grade, (v as List).cast<Volunteer>())),
+      volunteering: (fields[2] as List).cast<Volunteer>(),
       unlockedAchievements: (fields[3] as Map).map((dynamic k, dynamic v) =>
           MapEntry(k as String, (v as List).cast<EarnedAchievement>())),
     );

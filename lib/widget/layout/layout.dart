@@ -7,6 +7,7 @@ import 'package:gpa_galaxy/widget/grades_screen/edit_dialog.dart'
 import 'package:gpa_galaxy/widget/activities_screen/edit_dialog.dart'
     as activity_edit_dialog;
 import 'package:gpa_galaxy/widget/grades_screen/grades.dart';
+import 'package:gpa_galaxy/widget/volunteer_screen/volunteer_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'layout_content.dart';
@@ -41,7 +42,7 @@ class _LayoutState extends State<Layout> {
       _content = switch (index) {
         0 => LayoutContent(screen: "grades", profile: widget.profile),
         1 => LayoutContent(screen: "activities", profile: widget.profile),
-        2 => const SizedBox(), // empty element
+        2 => VolunteerScreen(profile: widget.profile),
         3 => const SizedBox(), // empty element
         _ => throw ("$index not in range"),
       };
