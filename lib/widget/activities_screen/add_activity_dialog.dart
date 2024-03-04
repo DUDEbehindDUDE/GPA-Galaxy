@@ -119,7 +119,7 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 130,
+                  width: 128,
                   child: TextField(
                     onChanged: (value) {
                       setState(() {
@@ -148,7 +148,7 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
                   ),
                 ),
                 SizedBox(
-                  width: 130,
+                  width: 128,
                   child: TextField(
                     onChanged: (value) {
                       setState(() {
@@ -156,11 +156,12 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
                             text: value, type: int, min: 1, max: 52);
                         totalWeeksErrorText =
                             ValidationHelper.validateItemErrorText(
-                                text: value,
-                                type: int,
-                                min: 1,
-                                max: 52,
-                                short: true);
+                          text: value,
+                          type: int,
+                          min: 1,
+                          max: 52,
+                          short: true,
+                        );
                       });
                     },
                     decoration: InputDecoration(

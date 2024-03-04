@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/achievement_helper.dart';
 import 'package:gpa_galaxy/generics/achievements.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
-import 'package:gpa_galaxy/widget/grades_screen/edit_dialog.dart';
+import 'package:gpa_galaxy/widget/grades_screen/edit_dialog.dart'
+    as grade_edit_dialog;
+import 'package:gpa_galaxy/widget/activities_screen/edit_dialog.dart'
+    as activity_edit_dialog;
 import 'package:gpa_galaxy/widget/grades_screen/grades.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -71,8 +74,27 @@ class _LayoutState extends State<Layout> {
     profileBox.put(widget.profile, newProfile);
   }
 
-  _showEditDialog(BuildContext ctx) {
-    showDialog(context: context, builder: (context) => EditDialog(profile: widget.profile));
+  FloatingActionButton? _getFloatingActionButton() {
+    if (_selectedIndex == 3) return null;
+
+    return FloatingActionButton(
+      onPressed: () => _showEditDialog(),
+      child: const Icon(Icons.edit_outlined),
+    );
+  }
+
+  _showEditDialog() {
+    var dialog = switch (_selectedIndex) {
+      0 => grade_edit_dialog.EditDialog(profile: widget.profile),
+      1 => activity_edit_dialog.EditDialog(profile: widget.profile),
+      _ => null,
+    };
+    if (dialog == null) return;
+
+    showDialog(
+      context: context,
+      builder: (context) => dialog,
+    );
   }
 
   @override
@@ -82,7 +104,7 @@ class _LayoutState extends State<Layout> {
     Color bgColor = const Color.fromARGB(180, 16, 0, 22);
     Color accentColor = const Color.fromARGB(180, 66, 33, 78);
     double topPadding = MediaQuery.of(context).padding.top + kToolbarHeight;
-    
+
     // main profile scaffold
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -132,10 +154,7 @@ class _LayoutState extends State<Layout> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _showEditDialog(context),
-        child: const Icon(Icons.edit_outlined),
-      ),
+      floatingActionButton: _getFloatingActionButton(),
       bottomNavigationBar: NavigationBar(
         backgroundColor: bgColor,
         elevation: 0,
