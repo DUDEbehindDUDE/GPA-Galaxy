@@ -17,13 +17,6 @@ class Util {
     };
   }
 
-  static Widget getNewItemDialogFromName(String str, dynamic args) {
-    return switch (str) {
-      // "grades" => ,
-      _ => throw ("Item not ")
-    };
-  }
-
   static List<Class> getClassesInSemester(
     Profile profile,
     Grade grade,

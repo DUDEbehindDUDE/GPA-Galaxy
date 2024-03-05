@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/util.dart';
 import 'package:gpa_galaxy/generics/type_adapters/volunteer.dart';
 
-class VolunteerItem extends StatelessWidget { 
+class VolunteerItem extends StatelessWidget {
   final String profile;
   final List<Volunteer> items;
   final int year;
-
 
   const VolunteerItem({
     super.key,
@@ -79,7 +78,18 @@ class VolunteerItem extends StatelessWidget {
             ),
           ),
           ..._renderItems(context),
-          const Padding(padding: EdgeInsets.only(bottom: 24.0))
+          TextButton.icon(
+            onPressed: () {},
+            icon: const Icon(Icons.edit_outlined),
+            label: const Text("Edit entries"),
+            style: const ButtonStyle(
+              padding: MaterialStatePropertyAll(EdgeInsets.only(left: 2.0, right: 8.0)),
+              iconSize: MaterialStatePropertyAll(20),
+              textStyle: MaterialStatePropertyAll(TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold)),
+              visualDensity: VisualDensity.compact,
+            ),
+          ),
+          const Padding(padding: EdgeInsets.only(bottom: 24.0)),
         ],
       ),
     );
