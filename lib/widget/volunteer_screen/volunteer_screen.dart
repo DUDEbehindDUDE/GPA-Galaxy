@@ -37,8 +37,11 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: _renderChildren(),
+    return Padding(
+      padding: const EdgeInsets.only(top: 18.0),
+      child: Column(
+        children: _renderChildren(),
+      ),
     );
   }
 }

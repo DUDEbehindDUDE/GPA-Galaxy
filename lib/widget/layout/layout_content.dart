@@ -31,9 +31,9 @@ class _LayoutContentState extends State<LayoutContent> {
         var semesters = profile.academics[grade];
         if (semesters == null) return [];
 
-        semesters.forEach((key, semester) {
-          for (var item in semester) {
-            content.add([item.className, item.grade]);
+        semesters.forEach((semester, classes) {
+          for (var item in classes) {
+            content.add([item.className, item.grade, semester]);
           }
         });
 

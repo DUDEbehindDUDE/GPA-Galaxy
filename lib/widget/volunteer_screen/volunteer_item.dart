@@ -34,7 +34,7 @@ class VolunteerItem extends StatelessWidget {
           Text("Hours logged", style: descStyle),
         ],
       ),
-      const Divider(),
+      const Divider(height: 8.0),
     ];
 
     for (var volunteerItem in this.items) {
