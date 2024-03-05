@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gpa_galaxy/class/validation_helper.dart';
 import 'package:gpa_galaxy/generics/type_adapters/activity.dart';
 import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
@@ -21,6 +22,8 @@ class AddActivityDialog extends StatefulWidget {
 }
 
 class _AddGradeDialogState extends State<AddActivityDialog> {
+  TextEditingController hrsPerWkController = TextEditingController(text: "");
+
   double? hrsPerWk;
   int? totalWeeks;
   String? activityName;
@@ -123,6 +126,10 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
                   child: TextField(
                     onChanged: (value) {
                       setState(() {
+                        if (value.length > 3) {
+                          value = value.substring(0, 3);
+                          hrsPerWkController.text = value;
+                        }
                         hrsPerWk = ValidationHelper.validateItem(
                           text: value,
                           type: double,
@@ -143,8 +150,9 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
                       labelText: "Hrs/wk",
                       errorText: hrsPerWkErrorText,
                       filled: true,
-                      hintText: "e.g. '4'",
+                      hintText: "e.g. '4.5'",
                     ),
+                    controller: hrsPerWkController,
                   ),
                 ),
                 SizedBox(

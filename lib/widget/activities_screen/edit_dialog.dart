@@ -170,6 +170,10 @@ class _EditDialogState extends State<EditDialog> {
                   labelText: "Hrs/wk",
                 ),
                 onChanged: (value) {
+                  if (value.length > 3) {
+                    value = value.substring(0, 3);
+                    activityHrWkController.text = value;
+                  }
                   setState(() {
                     newActivityHrWk = ValidationHelper.validateItem(
                       text: value,
@@ -177,7 +181,8 @@ class _EditDialogState extends State<EditDialog> {
                       min: 0,
                       max: 40,
                     );
-                    newActivityHrWkErrorText = ValidationHelper.validateItemErrorText(
+                    newActivityHrWkErrorText =
+                        ValidationHelper.validateItemErrorText(
                       text: value,
                       type: double,
                       min: 0,
@@ -205,7 +210,8 @@ class _EditDialogState extends State<EditDialog> {
                       min: 1,
                       max: 52,
                     );
-                    newActivityWkYrErrorText = ValidationHelper.validateItemErrorText(
+                    newActivityWkYrErrorText =
+                        ValidationHelper.validateItemErrorText(
                       text: value,
                       type: int,
                       min: 1,
@@ -279,8 +285,9 @@ class _EditDialogState extends State<EditDialog> {
             onPressed: () => Navigator.pop(context, "cancel"),
             child: const Text("Cancel")),
         TextButton(
-            onPressed:
-                selectedActivity != null ? () => _saveEdits(delete: true) : null,
+            onPressed: selectedActivity != null
+                ? () => _saveEdits(delete: true)
+                : null,
             child: const Text("Delete")),
         FilledButton(
             onPressed: selectedActivity != null &&
