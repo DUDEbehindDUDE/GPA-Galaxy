@@ -240,6 +240,11 @@ class _EditDialogState extends State<EditDialog> {
               children: [
                 DropdownMenu(
                   onSelected: (value) {
+                    if (value != grade) {
+                      setState(() {
+                        classItem = null;
+                      });
+                    }
                     if (value != null) {
                       setState(() {
                         grade = value;
@@ -271,6 +276,11 @@ class _EditDialogState extends State<EditDialog> {
                 ),
                 DropdownMenu(
                   onSelected: (value) {
+                    if (value != semester) {
+                      setState(() {
+                        classItem = null;
+                      });
+                    }
                     if (value != null) {
                       setState(() {
                         semester = value;

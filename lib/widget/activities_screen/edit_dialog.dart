@@ -236,6 +236,11 @@ class _EditDialogState extends State<EditDialog> {
             children: [
               DropdownMenu(
                 onSelected: (value) {
+                  if (value != grade) {
+                    setState(() {
+                      selectedActivity = null;
+                    });
+                  }
                   if (value != null) {
                     setState(() {
                       grade = value;
