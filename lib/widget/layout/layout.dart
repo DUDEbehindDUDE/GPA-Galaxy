@@ -31,7 +31,7 @@ class _LayoutState extends State<Layout> {
   final List<String> _screenNames = [
     "Grades",
     "Activities",
-    "Volunteer Hours",
+    "Volunteer Log",
     "Achievements"
   ];
   // Map<String, Achievements> achievements = Achievements(name: "hello", desc: "desc", dependent: "variable", requirements: [1]);

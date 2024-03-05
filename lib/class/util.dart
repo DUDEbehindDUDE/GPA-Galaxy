@@ -11,8 +11,8 @@ class Util {
 
   static String getActionFromScreenName(String str) {
     return switch (str) {
-      "grades" => "Add a class...",
-      "activities" => "Add an activity...",
+      "grades" => "Tap '+' to log a class...",
+      "activities" => "Tap '+' to log an activity...",
       _ => "Add $str..."
     };
   }

@@ -33,6 +33,7 @@ class LayoutContentItems extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> calculateItems() {
       const TextStyle style = TextStyle(fontSize: 18);
+      const TextStyle hintStyle = TextStyle(fontSize: 18, fontStyle: FontStyle.italic);
       const TextStyle categoryStyle = TextStyle(color: Colors.grey);
 
       List<Widget> items = [];
@@ -60,7 +61,7 @@ class LayoutContentItems extends StatelessWidget {
         items.add(Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(Util.getActionFromScreenName(screen), style: style),
+            Text(Util.getActionFromScreenName(screen), style: hintStyle),
           ],
         ));
         return items;
