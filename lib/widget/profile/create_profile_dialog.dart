@@ -36,11 +36,7 @@ class _CreateProfileDialogState extends State<CreateProfileDialog> {
     var newProfile = Profile(
       academics: <Grade, Map<Semester, List<Class>>> {},
       activities: <Grade, List<Activity>> {},
-      volunteering: <Volunteer> [
-        Volunteer(name: "test1", date: DateTime.now(), hours: 2),
-        Volunteer(name: "test2", date: DateTime.parse("2022-02-24"), hours: 4),
-        Volunteer(name: "test3", date: DateTime.parse("2022-03-13"), hours: 3),
-      ],
+      volunteering: <Volunteer> [],
       unlockedAchievements: <String, List<EarnedAchievement>> {},
     );
 

@@ -7,6 +7,7 @@ import 'package:gpa_galaxy/widget/grades_screen/edit_dialog.dart'
 import 'package:gpa_galaxy/widget/activities_screen/edit_dialog.dart'
     as activity_edit_dialog;
 import 'package:gpa_galaxy/widget/grades_screen/grades.dart';
+import 'package:gpa_galaxy/widget/volunteer_screen/add_volunteer_dialog.dart';
 import 'package:gpa_galaxy/widget/volunteer_screen/volunteer_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -75,19 +76,32 @@ class _LayoutState extends State<Layout> {
     profileBox.put(widget.profile, newProfile);
   }
 
+  /// Returns the proper floatingActionButton based on the screen
   FloatingActionButton? _getFloatingActionButton() {
+    // floating action button isn't necessary on achievements screen
     if (_selectedIndex == 3) return null;
 
+    // floating action button logs an item on volunteer screen 
+    if (_selectedIndex == 2) {
+      return FloatingActionButton(
+        onPressed: () => _showFloatingActionDialog(),
+        child: const Icon(Icons.add),
+      );
+    }
+
+    // on other screens it edits items
     return FloatingActionButton(
-      onPressed: () => _showEditDialog(),
+      onPressed: () => _showFloatingActionDialog(),
       child: const Icon(Icons.edit_outlined),
     );
   }
 
-  _showEditDialog() {
+  /// Displays the proper dialog from the action button based on the current screen
+  void _showFloatingActionDialog() {
     var dialog = switch (_selectedIndex) {
       0 => grade_edit_dialog.EditDialog(profile: widget.profile),
       1 => activity_edit_dialog.EditDialog(profile: widget.profile),
+      2 => AddVolunteerDialog(profile: widget.profile),
       _ => null,
     };
     if (dialog == null) return;

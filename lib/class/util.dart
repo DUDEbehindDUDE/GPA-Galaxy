@@ -45,9 +45,33 @@ class Util {
         getClassesInYear(profile, Grade.senior);
   }
 
-  /// Returns a string of the date, in Month/Day format (e.g. 1/26) 
-  /// from the [dateTime] given
-  static String renderDateMD(DateTime dateTime) {
+  /// Returns a string of the date, in M/D format (e.g. 1/23)
+  /// from the [dateTime] given. If [leadingZero] is true, will be in format
+  /// MM/DD (e.g. 01/03)
+  static String renderDateMD(DateTime dateTime, {bool leadingZero = false}) {
+    if (leadingZero) {
+      var month = addLeadingZero(dateTime.month.toString());
+      var day = addLeadingZero(dateTime.day.toString());
+      return "$month/$day";
+    }
     return "${dateTime.month}/${dateTime.day}";
+  }
+
+  /// Returns a string of the date, in M/D/YYYY format (e.g. 1/23/2024)
+  /// from the [dateTime] given. If [leadingZero] is true, will be in format 
+  /// MM/DD/YYYY (e.g. 01/03/2024)
+  static String renderDateMDYyyy(DateTime dateTime, {bool leadingZero = false}) {
+    if (leadingZero) {
+      var month = addLeadingZero(dateTime.month.toString());
+      var day = addLeadingZero(dateTime.day.toString());
+      var year = addLeadingZero(dateTime.year.toString(), length: 4);
+      return "$month/$day/$year";
+    }
+    return "${dateTime.month}/${dateTime.day}/${dateTime.year}";
+  }
+
+  /// Adds leading zeros in front of the number (so 1 -> 01) if number is less than length
+  static addLeadingZero(String number, {int length = 2}) {
+    return number.padLeft(length, "0");
   }
 }

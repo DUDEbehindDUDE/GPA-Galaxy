@@ -93,7 +93,7 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
       title: const Text("Add an activity"),
       content: SizedBox(
         width: 300,
-        height: 200,
+        height: 187,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
