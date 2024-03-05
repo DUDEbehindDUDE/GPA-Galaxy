@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gpa_galaxy/class/util.dart';
 import 'package:gpa_galaxy/class/validation_helper.dart';
 import 'package:gpa_galaxy/generics/type_adapters/activity.dart';
-import 'package:gpa_galaxy/generics/type_adapters/class.dart';
 import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
-import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class EditDialog extends StatefulWidget {

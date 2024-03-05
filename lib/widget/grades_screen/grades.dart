@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/math.dart';

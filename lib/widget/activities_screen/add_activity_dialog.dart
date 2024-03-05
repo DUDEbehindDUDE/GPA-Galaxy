@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gpa_galaxy/class/validation_helper.dart';
 import 'package:gpa_galaxy/generics/type_adapters/activity.dart';
 import 'package:gpa_galaxy/generics/type_adapters/grade.dart';

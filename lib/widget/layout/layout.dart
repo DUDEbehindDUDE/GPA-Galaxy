@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/achievement_helper.dart';
-import 'package:gpa_galaxy/generics/achievements.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:gpa_galaxy/widget/grades_screen/edit_dialog.dart'
     as grade_edit_dialog;
