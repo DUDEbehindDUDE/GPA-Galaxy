@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/achievement_helper.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
+import 'package:gpa_galaxy/widget/achievements_screen/achievements_screen.dart';
 import 'package:gpa_galaxy/widget/grades_screen/edit_dialog.dart'
     as grade_edit_dialog;
 import 'package:gpa_galaxy/widget/activities_screen/edit_dialog.dart'
@@ -43,7 +44,7 @@ class _LayoutState extends State<Layout> {
         0 => LayoutContent(screen: "grades", profile: widget.profile),
         1 => LayoutContent(screen: "activities", profile: widget.profile),
         2 => VolunteerScreen(profile: widget.profile),
-        3 => const SizedBox(), // empty element
+        3 => AchievementsScreen(profile: widget.profile),
         _ => throw ("$index not in range"),
       };
 
