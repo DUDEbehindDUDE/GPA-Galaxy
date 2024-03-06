@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/widget/info/license.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class InfoIndex extends StatelessWidget {
-  InfoIndex({Key? key}) : super(key: key);
+class InfoScreen extends StatelessWidget {
+  InfoScreen({Key? key}) : super(key: key);
 
+  // Links to outside places
   final Uri source = Uri(scheme: "https", host: "github.com", path: "DUDEbehindDUDE/GPA-Galaxy");
   final Uri wiki = Uri(scheme: "https", host: "github.com", path: "DUDEbehindDUDE/GPA-Galaxy/wiki");
 
+  /// Opens the link in browser
   void _launch(Uri uri) async {
     try {
       await launchUrl(uri);

@@ -13,6 +13,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
   TextStyle titleCardStyle = const TextStyle();
   TextStyle descCardStyle = const TextStyle(fontStyle: FontStyle.italic);
 
+  // WIP, this isn't going to stay like this very long
   @override
   Widget build(BuildContext context) {
     return Padding(

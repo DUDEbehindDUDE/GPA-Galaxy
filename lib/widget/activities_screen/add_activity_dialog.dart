@@ -35,6 +35,7 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
 
   var profileBox = Hive.box<Profile>("profiles");
 
+  /// Checks if all the inputs are valid. If they are returns true; otherwise, returns false.
   bool _checkIfNull() {
     if (hrsPerWk == null) return true;
     if (totalWeeks == null) return true;
@@ -43,6 +44,7 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
     return false;
   }
 
+  /// Generates a random activity name, without any bias whatsoever.
   String _randomActivityName() {
     var activities = [
       "Volleyball",
@@ -61,6 +63,7 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
     return "e.g. ${activities[Random().nextInt(activities.length - 1)]}";
   }
 
+  /// Logs the activity to the profile
   void _addItemToBox() {
     Profile newProfile = profileBox.get(widget.profile)!;
 
@@ -78,6 +81,8 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
     profileBox.put(widget.profile, newProfile);
   }
 
+  /// Checks to see of the activity name is already taken. If it is, 
+  /// invalidate field and set error text.
   void _checkIfNameTaken(name) {
     var activities = profileBox.get(widget.profile)!.activities[widget.grade];
     if (activities == null) return;

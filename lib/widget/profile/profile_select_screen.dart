@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
-import 'package:gpa_galaxy/widget/info/info_index.dart';
+import 'package:gpa_galaxy/widget/info/info_screen.dart';
 import 'package:gpa_galaxy/widget/profile/create_profile_dialog.dart';
 import 'package:gpa_galaxy/widget/layout/layout.dart';
 import 'package:gpa_galaxy/widget/profile/delete_profile_dialog.dart';
@@ -144,7 +144,7 @@ class _ProfileSelectScreenState extends State<ProfileSelectScreen> {
             IconButton(
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (ctx) => InfoIndex()),
+                MaterialPageRoute(builder: (ctx) => InfoScreen()),
               ),
               icon: const Icon(Icons.info_outlined),
             ),

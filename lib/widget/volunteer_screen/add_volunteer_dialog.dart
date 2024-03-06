@@ -65,7 +65,7 @@ class _AddVolunteerDialogState extends State<AddVolunteerDialog> {
     setState(() {
       dateFieldEditing = true;
       dateController.text =
-          Util.renderDateMDYyyy(date, leadingZero: true).replaceAll("/", "-");
+          Util.renderDateMDYyyy(date, leading: true).replaceAll("/", "-");
     });
   }
 
@@ -142,7 +142,7 @@ class _AddVolunteerDialogState extends State<AddVolunteerDialog> {
       date = newDate;
       dateErrorText = null;
       if (dateFieldEditing) {
-        dateController.text = Util.renderDateMDYyyy(newDate, leadingZero: true)
+        dateController.text = Util.renderDateMDYyyy(newDate, leading: true)
             .replaceAll("/", "-");
       } else {
         dateController.text = _formatDateText();

@@ -34,54 +34,64 @@ class _LayoutState extends State<Layout> {
     "Volunteer Log",
     "Achievements"
   ];
-  // Map<String, Achievements> achievements = Achievements(name: "hello", desc: "desc", dependent: "variable", requirements: [1]);
+
+  /// Callback function to handle the selection of bottom navigation bar items.
   void _onDestinationSelected(int index) {
     setState(() {
       _selectedIndex = index;
       _title = _screenNames[index];
-
-      _content = switch (index) {
-        0 => LayoutContent(screen: "grades", profile: widget.profile),
-        1 => LayoutContent(screen: "activities", profile: widget.profile),
-        2 => VolunteerScreen(profile: widget.profile),
-        3 => AchievementsScreen(profile: widget.profile),
-        _ => throw ("$index not in range"),
-      };
-
-      _additionalContent = switch (index) {
-        0 => Grades(profile: widget.profile),
-        1 || 2 || 3 => const SizedBox(), // empty element
-        _ => throw ("$index not in range"),
-      };
+      _content = _buildContent(index);
+      _additionalContent = _buildAdditionalContent(index);
     });
   }
 
+  /// Builds the main content based on the selected index.
+  Widget _buildContent(int index) {
+    return switch (index) {
+      0 => LayoutContent(screen: "grades", profile: widget.profile),
+      1 => LayoutContent(screen: "activities", profile: widget.profile),
+      2 => VolunteerScreen(profile: widget.profile),
+      3 => AchievementsScreen(profile: widget.profile),
+      _ => throw ("$index not in range"),
+    };
+  }
+
+  /// Builds the additional content based on the selected index.
+  Widget _buildAdditionalContent(int index) {
+    return switch (index) {
+      0 => Grades(profile: widget.profile),
+      1 || 2 || 3 => const SizedBox(), // Empty element
+      _ => throw ("$index not in range"),
+    };
+  }
+
+  /// Updates the achievements based on changes in the profile.
   void _updateAchievements(BuildContext context) async {
     // Get profile object
     Profile profile = profileBox.get(widget.profile)!;
 
-    // get all the earned achievements
+    // Get new achievements and update the box
     var newAchievements = await AchievementHelper.updateEarnedAchievements(
       profile,
       context,
       _onDestinationSelected,
     );
 
-    // if it was invalid we don't want to update anything
+    // If it was invalid, don't update anything
     if (newAchievements == null) return;
 
-    // update box
+    // Update box
     Profile newProfile = profile;
     newProfile.unlockedAchievements = newAchievements;
     profileBox.put(widget.profile, newProfile);
   }
 
-  /// Returns the proper floatingActionButton based on the screen
+  /// Returns the proper floatingActionButton based on the screen.
   FloatingActionButton? _getFloatingActionButton() {
-    // floating action button isn't necessary on achievements screen
+    // Floating action button isn't necessary on the achievements screen
     if (_selectedIndex == 3) return null;
 
-    // floating action button logs an item on volunteer screen 
+    // Floating action button logs an item on the volunteer screen
     if (_selectedIndex == 2) {
       return FloatingActionButton(
         onPressed: () => _showFloatingActionDialog(),
@@ -89,14 +99,14 @@ class _LayoutState extends State<Layout> {
       );
     }
 
-    // on other screens it edits items
+    // On other screens, it edits items
     return FloatingActionButton(
       onPressed: () => _showFloatingActionDialog(),
       child: const Icon(Icons.edit_outlined),
     );
   }
 
-  /// Displays the proper dialog from the action button based on the current screen
+  /// Displays the proper dialog from the action button based on the current screen.
   void _showFloatingActionDialog() {
     var dialog = switch (_selectedIndex) {
       0 => grade_edit_dialog.EditDialog(profile: widget.profile),
@@ -120,7 +130,7 @@ class _LayoutState extends State<Layout> {
     Color accentColor = const Color.fromARGB(180, 66, 33, 78);
     double topPadding = MediaQuery.of(context).padding.top + kToolbarHeight;
 
-    // main profile scaffold
+    // Main profile scaffold
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -150,7 +160,8 @@ class _LayoutState extends State<Layout> {
                   _content,
                   const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                   _additionalContent,
-                  // extra padding on the bottom so edit button isn't gonna block anything
+
+                  // Extra padding on the bottom so the edit button doesn't block anything
                   const Padding(padding: EdgeInsets.symmetric(vertical: 40)),
 
                   // Check for new achievements when the box changes
@@ -159,7 +170,7 @@ class _LayoutState extends State<Layout> {
                     builder: (context, box, widget) {
                       _updateAchievements(context);
 
-                      // we don't need to return anything, but we can't return null, so here is an empty widget
+                      // We don't need to return anything, but we can't return null, so here is an empty widget
                       return const SizedBox();
                     },
                   )
@@ -193,8 +204,6 @@ class _LayoutState extends State<Layout> {
             label: "Volunteering",
           ),
           NavigationDestination(
-            // I don't know why the trophy icon isn't in here, but this
-            // one is literally the exact same so 🤷
             icon: Icon(Icons.emoji_events_outlined),
             selectedIcon: Icon(Icons.emoji_events),
             label: "Achievements",

@@ -34,6 +34,7 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
 
   var profileBox = Hive.box<Profile>("profiles");
 
+  /// Generates a random class name
   String _randomClassName() {
     const classes = [
       "Biology",
@@ -80,6 +81,7 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
     }
   }
 
+  /// Adds the item to the profile
   void _addItem() {
     Profile newProfile = profileBox.get(widget.profile)!;
     Class item =

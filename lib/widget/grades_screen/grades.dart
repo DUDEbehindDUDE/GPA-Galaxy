@@ -6,32 +6,30 @@ import 'package:gpa_galaxy/generics/type_adapters/class.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class Grades extends StatefulWidget {
+class Grades extends StatelessWidget {
+  final profileBox = Hive.box<Profile>("profiles");
   final String profile;
 
-  const Grades({super.key, required this.profile});
+  Grades({super.key, required this.profile});
 
-  @override
-  createState() => _GradesState();
-}
-
-class _GradesState extends State<Grades> {
-  Math math = Math();
-  var profileBox = Hive.box<Profile>("profiles");
-
-  String gpaText() {
-    if (getGPA() == 0) {
+  /// Returns a formatted string representing the GPA information.
+  ///
+  /// If the calculated GPA is 0, it indicates insufficient data, and a corresponding message is returned.
+  /// Otherwise, it returns the weighted and unweighted GPA values.
+  String _gpaText() {
+    if (_getGPA() == 0) {
       return "Not enough data to calculate your GPA. Try adding more classes.";
     }
     return '''
-Weighted GPA: ${getGPA()}
-Unweighted GPA: ${getGPA(weighted: false)}
+Weighted GPA: ${_getGPA()}
+Unweighted GPA: ${_getGPA(weighted: false)}
 ''';
   }
 
-  double getGPA({weighted = true}) {
+  /// Calculates and returns the GPA based on the classes in the profile.
+  double _getGPA({weighted = true}) {
     // Get all the classes out of the database
-    Profile profile = profileBox.get(widget.profile)!;
+    Profile profile = profileBox.get(this.profile)!;
     List<Class> allClasses = Util.getAllClasses(profile);
 
     // Calculate and round GPA
@@ -65,7 +63,7 @@ Unweighted GPA: ${getGPA(weighted: false)}
                     ),
                   ),
                   Text(
-                    gpaText(),
+                    _gpaText(),
                     style: style,
                   ),
                 ],

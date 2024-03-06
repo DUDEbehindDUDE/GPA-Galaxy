@@ -11,8 +11,11 @@ import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
 
 class AchievementHelper {
-  /// Loads the json from assets/data/achievements.json, and parses it into a
-  /// [Map<String, List<Achievements>>] object, where the key is the category.
+  /// Loads the JSON data from assets/data/achievements.json and parses it into a
+  /// Map<String, List<Achievements>> object, where the key is the category.
+  ///
+  /// Returns:
+  ///   - A Future containing the parsed achievement map.
   static Future<Map<String, List<Achievements>>> loadJson() async {
     var data = await rootBundle.loadString(
       'assets/data/achievements.json',
@@ -20,7 +23,7 @@ class AchievementHelper {
     );
     var jsonMap = await jsonDecode(data);
 
-    // parse json object and convert it to what we want
+    // Parse json object and convert it to what we want
     Map<String, List<Achievements>> achievementMap = {};
     jsonMap.forEach((category, achievementsJson) {
       List<Achievements> achievementsList = [];
@@ -50,9 +53,17 @@ class AchievementHelper {
     return achievementMap;
   }
 
-  /// Returns how many classes are >= grade in profile. Example: profile contains classes
-  /// with grades 89, 90, 92, 80, 79. [howManyAboveGrade(90, profile)] returns 2;
-  /// [howManyAboveGrade(80, profile)] returns 4.
+  /// Returns the number of classes with grades greater than or equal to the specified grade in the profile.
+  /// 
+  /// Example: profile contains classes with grades 89, 90, 92, 80, 79. `howManyAboveGrade(90, profile)` 
+  /// would return 2. `howManyAboveGrade(80, profile)` would return 4.
+  ///
+  /// Parameters:
+  ///   - [grade]: The grade to compare against.
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - The number of classes with grades greater than or equal to the specified grade.
   static int howManyAboveGrade(int grade, Profile profile) {
     var classes = Util.getAllClasses(profile);
     int amount = 0;
@@ -65,8 +76,15 @@ class AchievementHelper {
     return amount;
   }
 
-  /// Returns how many semesters the user has fully logged. Returns 0 if they have logged
-  /// at least one class; otherwise, if the user has logged no classes, returns -1.
+  /// Returns the number of fully logged semesters in the user's profile. If the user has logged
+  /// at least one class (but not a full semester's worth), returns zero. If the user hasn't logged
+  /// any classes, returns -1.
+  ///
+  /// Parameters:
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - The number of fully logged semesters.
   static int howManySemestersLogged(Profile profile) {
     var classes = Util.getAllClasses(profile);
     // return -1 if you wouldn't have the achievement, 0 if you would get level 0
@@ -86,7 +104,14 @@ class AchievementHelper {
     return amount;
   }
 
-  /// This returns the variable associated with the dependent based on the profile.
+  /// Returns the variable associated with the dependent based on the profile.
+  ///
+  /// Parameters:
+  ///   - [dependent]: The dependent variable name.
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - The value of the dependent variable.
   static num getAchievementVariable(String dependent, Profile profile) {
     return switch (dependent) {
       "aAmount" => howManyAboveGrade(90, profile),
@@ -96,9 +121,18 @@ class AchievementHelper {
     };
   }
 
-  /// Returns all the achievements that are earned, and if any are any new achievements
-  /// or achievements that have leveled up, it will display a snackbar saying that they have
-  /// been earned. Returns null if BuildContext is invalid, or if nothing has changed.
+  /// Updates the earned achievements based on the user's profile and displays any new achievements.
+  /// Returns all the achievements that are earned, and if any are any new achievements or achievements
+  /// that have leveled up, it will display a snackbar saying that they have been earned. Returns null
+  /// if BuildContext is invalid, or if nothing has changed.
+  ///
+  /// Parameters:
+  ///   - [profile]: The user profile.
+  ///   - [ctx]: The BuildContext.
+  ///   - [goToScreen]: A function to navigate to a specific screen.
+  ///
+  /// Returns:
+  ///   - A Future containing the updated earned achievements.
   static Future<Map<String, List<EarnedAchievement>>?> updateEarnedAchievements(
     Profile profile,
     BuildContext ctx,
@@ -157,6 +191,13 @@ class AchievementHelper {
 
   /// Checks if each achievement in allEarnedAchievements is present in profile. If it isn't,
   /// it is added to the returned [List<EarnedAchievement>].
+  ///
+  /// Parameters:
+  ///   - [allEarnedAchievements]: A map containing all earned achievements.
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - A list of new earned achievements.
   static List<EarnedAchievement> getNewAchievementList(
     Map<String, List<EarnedAchievement>> allEarnedAchievements,
     Profile profile,
@@ -178,7 +219,14 @@ class AchievementHelper {
     return newAchievements;
   }
 
-  /// Gets the description of an achievement based on the current level
+  /// Gets the description of an achievement based on the current level.
+  ///
+  /// Parameters:
+  ///   - [achievement]: The achievement object.
+  ///   - [level]: The achievement level.
+  ///
+  /// Returns:
+  ///   - The achievement description.
   static String getDesc(Achievements achievement, int level) {
     if (level == 0 || achievement.additionalDesc == null) {
       return achievement.desc;
@@ -191,8 +239,12 @@ class AchievementHelper {
     return descriptions[min(level, descriptions.length) - 1];
   }
 
-  /// Calls [displayAchievementSnackbar()] for each achievement given. Used to
-  /// show snackbars for all new achievements.
+  /// Renders snackbars for all new achievements.
+  ///
+  /// Parameters:
+  ///   - [ctx]: The BuildContext.
+  ///   - [achievements]: A list of earned achievements.
+  ///   - [goToScreen]: A function to navigate to a specific screen.
   static void renderAchievementSnackbars(
     BuildContext ctx,
     List<EarnedAchievement> achievements,
@@ -223,8 +275,13 @@ class AchievementHelper {
     }
   }
 
-  /// Displays a snackbar with primary and secondary text, and with an action that, when
-  /// clicked, goes to the achievement screen (runs goToScreen(3))
+  /// Displays a snackbar for a specific achievement.
+  ///
+  /// Parameters:
+  ///   - [mainText]: The main text of the snackbar.
+  ///   - [secondaryText]: The secondary text of the snackbar.
+  ///   - [ctx]: The BuildContext.
+  ///   - [goToScreen]: A function to navigate to a specific screen.
   static void displayAchievementSnackbar(
     String mainText,
     String secondaryText,

@@ -1,5 +1,18 @@
 class ValidationHelper {
   
+  /// Validates the input text based on specified constraints.
+  ///
+  /// Returns the parsed input if validation is successful.
+  /// If validation fails, returns null.
+  ///
+  /// Parameters:
+  ///   - [text]: The input text to be validated.
+  ///   - [type]: The data type expected for the input.
+  ///   - [min]: The minimum value allowed for the input.
+  ///   - [max]: The maximum value allowed for the input.
+  ///
+  /// Returns:
+  ///   - The parsed input if validation is successful, else null.
   static dynamic validateItem({required String text, Type? type, int? min, int? max}) {
     if (validateItemErrorText(text: text, type: type, min: min, max: max) != null) {
       return null;
@@ -15,6 +28,20 @@ class ValidationHelper {
     return text;
   }
 
+  /// Validates the input text and returns an error message if validation fails.
+  ///
+  /// Returns null if the input is valid.
+  /// If validation fails, returns an error message describing the reason.
+  ///
+  /// Parameters:
+  ///   - [text]: The input text to be validated.
+  ///   - [type]: The data type expected for the input.
+  ///   - [min]: The minimum value allowed for the input.
+  ///   - [max]: The maximum value allowed for the input.
+  ///   - [short]: A flag indicating whether to return short error messages.
+  ///
+  /// Returns:
+  ///   - Null if the input is valid, else an error message.
   static String? validateItemErrorText({String? text, Type? type, int? min, int? max, short = false}) {
     if (text == null || text.isEmpty) {
       return short ? "Cannot be empty" : "Field cannot be left empty";
