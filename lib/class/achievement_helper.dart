@@ -38,7 +38,6 @@ class AchievementHelper {
               : null,
           dependent: achievementJson['dependent'],
           levelCap: achievementJson['levelCap'],
-          levelStart: achievementJson['levelStart'],
           requirements: List<int>.from(achievementJson['levelRequirements']),
         );
 
@@ -153,19 +152,16 @@ class AchievementHelper {
         num dependentValue =
             getAchievementVariable(achievement.dependent, profile);
 
-        int level = -1;
+        int level = 0;
         for (int item in achievement.requirements) {
           if (item > dependentValue) break;
           level++;
         }
-        // if level is still -1, the achievement hasn't been earned
-        if (level == -1) continue;
+        // if level is still 0, the achievement hasn't been earned
+        if (level == 0) continue;
 
         // get description
         String desc = getDesc(achievement, level);
-
-        // add level start
-        level += achievement.levelStart;
 
         // add achievement to map
         allEarnedAchievements[category] ??= []; // initialize if null
@@ -174,7 +170,6 @@ class AchievementHelper {
           desc: desc,
           upgradable: achievement.upgradable,
           level: level,
-          startingLevel: achievement.levelStart,
           levelCap: achievement.levelCap,
         ));
       }
@@ -228,7 +223,7 @@ class AchievementHelper {
   /// Returns:
   ///   - The achievement description.
   static String getDesc(Achievements achievement, int level) {
-    if (level == 0 || achievement.additionalDesc == null) {
+    if (level == 1 || achievement.additionalDesc == null) {
       return achievement.desc;
     }
 
@@ -236,7 +231,7 @@ class AchievementHelper {
     if (descriptions.isEmpty) return achievement.desc;
 
     // if you have level 1, description would be additionalDesc[0], etc
-    return descriptions[min(level, descriptions.length) - 1];
+    return descriptions[min(level - 1, descriptions.length) - 1];
   }
 
   /// Renders snackbars for all new achievements.
@@ -256,8 +251,7 @@ class AchievementHelper {
       String achievementSecondaryText;
 
       // get flavor text
-      if (!achievement.upgradable ||
-          achievement.startingLevel == achievement.level) {
+      if (!achievement.upgradable || achievement.level == 1) {
         achievementMainText = "You earned a new achievement!";
         achievementSecondaryText = "${achievement.name}: ${achievement.desc}";
       } else {

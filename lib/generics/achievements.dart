@@ -19,10 +19,6 @@ class Achievements {
   /// Doesn't apply if the achievement isn't upgradable.
   int? levelCap;
 
-  /// The level of the first achievement (defaults to 1)
-  /// Doesn't apply if the achievement isn't upgradable.
-  int levelStart;
-
   /// What amount of the dependent is needed to unlock the achievement. This is
   /// a list, so that you can specify the amount for different levels.
   /// E.g. if this is [1, 4, 7], to unlock the first level, it needs to be >=1,
@@ -39,7 +35,6 @@ class Achievements {
     this.additionalDesc,
     required this.dependent,
     this.levelCap,
-    this.levelStart = 1,
     required this.requirements
   }) {
     if (requirements.isEmpty) {

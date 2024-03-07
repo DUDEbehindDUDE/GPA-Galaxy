@@ -20,10 +20,6 @@ class EarnedAchievement {
   @HiveField(3)
   int level;
 
-  /// Starting level of the earned achievement (1 if not supplied)
-  @HiveField(4)
-  int startingLevel;
-
   /// Level cap of the earned achievement (ignored if not upgradable)
   @HiveField(5)
   int? levelCap;
@@ -33,7 +29,6 @@ class EarnedAchievement {
     required this.desc,
     required this.upgradable,
     required this.level,
-    this.startingLevel = 1,
     this.levelCap,
   });
 
@@ -46,13 +41,12 @@ class EarnedAchievement {
         other.desc == desc &&
         other.upgradable == upgradable &&
         other.level == level &&
-        other.startingLevel == startingLevel &&
         other.levelCap == levelCap;
   }
 
   @override
   int get hashCode {
     // generate hashCode based on relevant properties
-    return Object.hash(name, desc, upgradable, level, startingLevel, levelCap);
+    return Object.hash(name, desc, upgradable, level, levelCap);
   }
 }

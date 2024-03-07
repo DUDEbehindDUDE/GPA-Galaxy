@@ -21,7 +21,6 @@ class EarnedAchievementAdapter extends TypeAdapter<EarnedAchievement> {
       desc: fields[1] as String,
       upgradable: fields[2] as bool,
       level: fields[3] as int,
-      startingLevel: fields[4] as int,
       levelCap: fields[5] as int?,
     );
   }
@@ -38,8 +37,6 @@ class EarnedAchievementAdapter extends TypeAdapter<EarnedAchievement> {
       ..write(obj.upgradable)
       ..writeByte(3)
       ..write(obj.level)
-      ..writeByte(4)
-      ..write(obj.startingLevel)
       ..writeByte(5)
       ..write(obj.levelCap);
   }
