@@ -205,9 +205,25 @@ class AchievementHelper {
     // check if the achievement has been earned already, and if not, add it to newAchievements
     allEarnedAchievements.forEach((category, achievements) {
       for (var achievement in achievements) {
-        if (!(profileAchievements[category] ?? []).contains(achievement)) {
+        if (profileAchievements[category] == null) {
           newAchievements.add(achievement);
+          continue;
         }
+
+        // check if achievement has leveled up
+        bool found = false;
+        for (var item in profileAchievements[category]!) {
+          // if names don't match
+          if (item.name != achievement.name) continue;
+
+          // if achievement exists, but hasn't leveled up
+          if (item.level >= achievement.level) {
+            found = true;
+          }
+          break;
+        }
+
+        if (!found) newAchievements.add(achievement);
       }
     });
 
