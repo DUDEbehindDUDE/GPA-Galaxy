@@ -9,6 +9,10 @@ class Achievements {
   /// If it is upgradable, that means you can level up the achievement
   bool upgradable;
 
+  /// If the achievement is immutable or not (defaults to false)
+  /// If it is immutable, the achievement cannot be revoked
+  bool immutable;
+
   /// If the achievement is upgradable, these will display with each level
   List<String>? additionalDesc;
 
@@ -32,6 +36,7 @@ class Achievements {
     required this.name,
     required this.desc,
     this.upgradable = false,
+    this.immutable = false,
     this.additionalDesc,
     required this.dependent,
     this.levelCap,

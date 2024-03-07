@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gpa_galaxy/class/math.dart';
 import 'package:gpa_galaxy/class/util.dart';
 import 'package:gpa_galaxy/generics/achievements.dart';
 import 'package:gpa_galaxy/generics/type_adapters/earned_achievement.dart';
@@ -33,6 +34,7 @@ class AchievementHelper {
           name: achievementJson['name'],
           desc: achievementJson['description'],
           upgradable: achievementJson['upgradable'],
+          immutable: achievementJson['immutable'] ?? false,
           additionalDesc: achievementJson['additionalDescriptions'] != null
               ? List<String>.from(achievementJson['additionalDescriptions'])
               : null,
@@ -53,8 +55,8 @@ class AchievementHelper {
   }
 
   /// Returns the number of classes with grades greater than or equal to the specified grade in the profile.
-  /// 
-  /// Example: profile contains classes with grades 89, 90, 92, 80, 79. `howManyAboveGrade(90, profile)` 
+  ///
+  /// Example: profile contains classes with grades 89, 90, 92, 80, 79. `howManyAboveGrade(90, profile)`
   /// would return 2. `howManyAboveGrade(80, profile)` would return 4.
   ///
   /// Parameters:
@@ -75,6 +77,28 @@ class AchievementHelper {
     return amount;
   }
 
+  /// Returns the number of classes with a class weight equal to the specified weight in the profile.
+  ///
+  /// Example: profile contains 2 regular, 3 honors, and 1 ap class. `howManyWithWeightGrade(0.5, profile)`
+  /// would return 3. `howManyWithWeight(1, profile)` would return 1.
+  ///
+  /// Parameters:
+  ///   - [weight]: The class weight to compare against.
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - The number of classes with a weight equal to the specified weight.
+  static int howManyWithWeight(double weight, Profile profile) {
+    var classes = Util.getAllClasses(profile);
+    int amount = 0;
+
+    for (var item in classes) {
+      if (item.classWeight == weight) amount++;
+    }
+
+    return amount;
+  }
+
   /// Returns the number of fully logged semesters in the user's profile. If the user has logged
   /// at least one class (but not a full semester's worth), returns zero. If the user hasn't logged
   /// any classes, returns -1.
@@ -86,7 +110,7 @@ class AchievementHelper {
   ///   - The number of fully logged semesters.
   static int howManySemestersLogged(Profile profile) {
     var classes = Util.getAllClasses(profile);
-    // return -1 if you wouldn't have the achievement, 0 if you would get level 0
+    // return -1 if there are no classes, 0 if there is one class
     if (classes.isEmpty) return -1;
     if (classes.length == 1) return 0;
 
@@ -103,6 +127,33 @@ class AchievementHelper {
     return amount;
   }
 
+  /// Returns the level of gpaCourseSelection. For more info, look at the
+  /// descriptions in assets/data/achievements.json for items with this dependent.
+  ///
+  /// Parameters:
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - The level associated with the dependent gpaCourseSelection.
+  static int getGpaCourseSelectionLevel(Profile profile) {
+    var classes = Util.getAllClasses(profile);
+
+    double gpa = Math.getGpaFromClasses(classes);
+
+    if (classes.length >= 8) {
+      if (gpa >= 4.4) return 6;
+      if (gpa >= 4.3) return 5;
+      if (gpa >= 4.15) return 4;
+      if (gpa >= 4.0) return 3;
+    }
+    if (classes.length >= 4) {
+      if (gpa >= 3.5) return 2;
+      if (gpa >= 3.0) return 1;
+    }
+
+    return 0;
+  }
+
   /// Returns the variable associated with the dependent based on the profile.
   ///
   /// Parameters:
@@ -116,6 +167,9 @@ class AchievementHelper {
       "aAmount" => howManyAboveGrade(90, profile),
       "bAmount" => howManyAboveGrade(80, profile),
       "semesterHasFourClasses" => howManySemestersLogged(profile),
+      "honorsCourseAmount" => howManyWithWeight(0.5, profile),
+      "apCourseAmount" => howManyWithWeight(1.0, profile),
+      "gpaCourseSelection" => getGpaCourseSelectionLevel(profile),
       _ => throw ("Variable $dependent not valid!")
     };
   }
@@ -145,7 +199,7 @@ class AchievementHelper {
       return null;
     }
 
-    // Calculate all the achievements
+    // Calculate all earned achievements
     Map<String, List<EarnedAchievement>> allEarnedAchievements = {};
     allAchievements.forEach((category, achievements) {
       for (var achievement in achievements) {
@@ -169,16 +223,24 @@ class AchievementHelper {
           name: achievement.name,
           desc: desc,
           upgradable: achievement.upgradable,
+          immutable: achievement.immutable,
           level: level,
           levelCap: achievement.levelCap,
         ));
       }
     });
 
+    // add earned immutable achievements to the list
+    allEarnedAchievements = addImmutableAchievements(
+      allEarnedAchievements,
+      profile,
+    );
+
     // check and display new achievements
     var newAchievements = getNewAchievementList(allEarnedAchievements, profile);
+
     // this return keeps everything from constantly rerendering
-    if (newAchievements.isEmpty) return null;
+    if (!checkIfAchievementsChanged(allEarnedAchievements, profile)) return null;
     renderAchievementSnackbars(ctx, newAchievements, goToScreen);
 
     return allEarnedAchievements;
@@ -228,6 +290,91 @@ class AchievementHelper {
     });
 
     return newAchievements;
+  }
+  
+  /// Checks if each achievement in allEarnedAchievements is present in profile. If it isn't,
+  /// it is added to the returned [List<EarnedAchievement>].
+  ///
+  /// Parameters:
+  ///   - [allEarnedAchievements]: A map containing all earned achievements.
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - A list of new earned achievements.
+  static bool checkIfAchievementsChanged(
+    Map<String, List<EarnedAchievement>> allEarnedAchievements,
+    Profile profile,
+  ) {
+    var profileAchievements = profile.unlockedAchievements;
+
+    // check if contents are the same
+    bool found = false;
+    allEarnedAchievements.forEach((category, achievements) {
+      for (var achievement in achievements) {
+        if (!(profileAchievements[category] ?? []).contains(achievement)) {
+          found = true;
+          // apparently this return is for the forEach, not the actual method
+          return;
+        }
+      }
+    });
+
+    return found;
+  }
+
+  /// Checks if there are immutable achievements that are present in the profile that
+  /// aren't in allEarned achievements. If there are, they get appended to the list, and
+  /// the new list gets returned.
+  ///
+  /// Parameters:
+  ///   - [allEarnedAchievements]: A map containing all earned achievements.
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - A list of all earned achievements, including immutable ones.
+  static Map<String, List<EarnedAchievement>> addImmutableAchievements(
+    Map<String, List<EarnedAchievement>> allEarnedAchievements,
+    Profile profile,
+  ) {
+    var profileAchievements = profile.unlockedAchievements;
+
+    profileAchievements.forEach((category, achievements) {
+      for (var achievement in achievements) {
+        if (!achievement.immutable) continue;
+
+        if (profileAchievements[category] == null) {
+          allEarnedAchievements[category] = [];
+          allEarnedAchievements[category]!.add(achievement);
+          continue;
+        }
+
+        // check if immutable achievement has higher level than earned achievement. Keep higher level.
+        bool found = false;
+        for (int i = 0; i < allEarnedAchievements[category]!.length; i++) {
+          var item = allEarnedAchievements[category]![i];
+
+          // if names don't match we haven't found it
+          if (item.name != achievement.name) continue;
+
+          // keep higher level
+          if (achievement.level > item.level) {
+            allEarnedAchievements[category]![i] = achievement;
+          }
+
+          found = true;
+          break;
+        }
+
+        if (!found) allEarnedAchievements[category]!.add(achievement);
+
+        if (!(allEarnedAchievements[category] ?? []).contains(achievement)) {
+          allEarnedAchievements[category] ??= [];
+          allEarnedAchievements[category]!.add(achievement);
+        }
+      }
+    });
+
+    return allEarnedAchievements;
   }
 
   /// Gets the description of an achievement based on the current level.

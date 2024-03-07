@@ -15,6 +15,10 @@ class EarnedAchievement {
   /// Whether the earned achievement can be upgraded or not
   @HiveField(2)
   bool upgradable;
+  
+  /// Whether the earned achievement can be revoked or not
+  @HiveField(4)
+  bool immutable;
 
   /// Level of the earned achievement
   @HiveField(3)
@@ -28,6 +32,7 @@ class EarnedAchievement {
     required this.name,
     required this.desc,
     required this.upgradable,
+    this.immutable = false,
     required this.level,
     this.levelCap,
   });
@@ -40,6 +45,7 @@ class EarnedAchievement {
         other.name == name &&
         other.desc == desc &&
         other.upgradable == upgradable &&
+        other.immutable == immutable &&
         other.level == level &&
         other.levelCap == levelCap;
   }
@@ -47,6 +53,6 @@ class EarnedAchievement {
   @override
   int get hashCode {
     // generate hashCode based on relevant properties
-    return Object.hash(name, desc, upgradable, level, levelCap);
+    return Object.hash(name, desc, upgradable, immutable, level, levelCap);
   }
 }

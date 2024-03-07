@@ -20,6 +20,7 @@ class EarnedAchievementAdapter extends TypeAdapter<EarnedAchievement> {
       name: fields[0] as String,
       desc: fields[1] as String,
       upgradable: fields[2] as bool,
+      immutable: fields[4] as bool,
       level: fields[3] as int,
       levelCap: fields[5] as int?,
     );
@@ -35,6 +36,8 @@ class EarnedAchievementAdapter extends TypeAdapter<EarnedAchievement> {
       ..write(obj.desc)
       ..writeByte(2)
       ..write(obj.upgradable)
+      ..writeByte(4)
+      ..write(obj.immutable)
       ..writeByte(3)
       ..write(obj.level)
       ..writeByte(5)
