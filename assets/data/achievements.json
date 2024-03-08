@@ -150,5 +150,82 @@
       "dependent": "gpaCourseSelection",
       "levelRequirements": [6]
     }
+  ],
+  "activity": [
+    {
+      "name": "Constellation of Commitment",
+      "description": "Participate in activities for 3 years of your high school life",
+      "additionalDescriptions": [
+        "Participate in activities for all 4 years of your high school life"
+      ],
+      "upgradable": true,
+      "levelCap": 2,
+      "dependent": "yearsWithActivities",
+      "levelRequirements": [3, 4]
+    }
+  ],
+  "volunteer": [
+    {
+      "name": "",
+      "description": "Log your first hour of community service",
+      "additionalDescriptions": [
+        "Log 5 hours of community service",
+        "Log 10 hours of community service",
+        "Log 15 hours of community service",
+        "Log 20 hours of community service",
+        "Log 25 hours of community service",
+        "Log 30 hours of community service",
+        "Log 35 hours of community service",
+        "Log 40 hours of community service",
+        "Log 45 hours of community service",
+        "Log 50 hours of community service",
+        "Log 55 hours of community service",
+        "Log 60 hours of community service",
+        "Log 65 hours of community service",
+        "Log 70 hours of community service",
+        "Log 75 hours of community service",
+        "Log 80 hours of community service",
+        "Log 85 hours of community service",
+        "Log 90 hours of community service",
+        "Log 95 hours of community service",
+        "Log 100 hours of community service"
+      ],
+      "upgradable": true,
+      "levelCap": 21,
+      "dependent": "totalVolunteerHours",
+      "levelRequirements": [
+        1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,
+        90, 95, 100
+      ]
+    },
+    {
+      "name": "Galactic Ambassador",
+      "description": "Log your first volunteer activity",
+      "additionalDescriptions": [
+        "Volunteer for 3 different activities",
+        "Volunteer for 6 different activities",
+        "Volunteer for 9 different activities",
+        "Volunteer for 12 different activities",
+        "Volunteer for 15 different activities",
+        "Volunteer for 18 different activities",
+        "Volunteer for 21 different activities",
+        "Volunteer for 24 different activities",
+        "Volunteer for 27 different activities",
+        "Volunteer for 30 different activities"
+      ],
+      "upgradable": true,
+      "levelCap": 11,
+      "dependent": "totalVolunteerItems",
+      "levelRequirements": [1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
+    },
+    {
+      "name": "Black Hole of Dedication",
+      "description": "Volunteer for 3 years of your high school life",
+      "additionalDescriptions": ["Volunteer all 4 years of your high school life"],
+      "upgradable": true,
+      "levelCap": 2,
+      "dependent": "yearsVolunteered",
+      "levelRequirements": [3, 4]
+    }
   ]
 }

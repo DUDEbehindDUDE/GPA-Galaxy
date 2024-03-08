@@ -154,6 +154,106 @@ class AchievementHelper {
     return 0;
   }
 
+  /// Returns how many years that have activities logged in [profile]
+  ///
+  /// Parameters:
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - How many years that have logged activities in the profile.
+  static int howManyYearsWithActivities(Profile profile) {
+    int years = 0;
+
+    profile.activities.forEach((key, value) {
+      if (value.isNotEmpty) years++;
+    });
+
+    return years;
+  }
+
+  /// Returns how many activities that have been logged in [profile]
+  ///
+  /// Parameters:
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - How many activities are logged in [profile].
+  static int howManyActivityItems(Profile profile) {
+    int totalActivityItems = 0;
+
+    profile.activities.forEach((grade, activities) {
+      totalActivityItems += activities.length;
+    });
+
+    return totalActivityItems;
+  }
+  
+  /// Returns how many weeks the user has committed to activities in [profile]
+  ///
+  /// Parameters:
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - The total of all the [totalWeeks] in all activities in [profile].
+  static int howManyActivityWeeks(Profile profile) {
+    int weeks = 0;
+
+    profile.activities.forEach((grade, activities) {
+      for (var activity in activities) {
+        weeks += activity.totalWeeks;
+      }
+    });
+
+    return weeks;
+  }
+
+  /// Returns the total hours logged of community service in [profile]
+  ///
+  /// Parameters:
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - How many hours of community service that have been logged in the profile.
+  static double howManyVolunteerHours(Profile profile) {
+    double hours = 0;
+
+    for (var item in profile.volunteering) {
+      hours += item.hours;
+    }
+
+    return hours;
+  }
+
+  /// Returns the total number of volunteer activities logged in [profile]
+  ///
+  /// Parameters:
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - How many volunteer activities that have been logged in the profile.
+  static int howManyVolunteerItems(Profile profile) {
+    return profile.volunteering.length;
+  }
+
+  /// Returns how many years that have volunteer items logged in [profile]
+  ///
+  /// Parameters:
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - How many years of volunteering in [profile].
+  static int howManyYearsVolunteered(Profile profile) {
+    List<int> years = [];
+
+    for (var item in profile.volunteering) {
+      if (!years.contains(item.date.year)) {
+        years.add(item.date.year);
+      }
+    }
+
+    return years.length;
+  }
+
   /// Returns the variable associated with the dependent based on the profile.
   ///
   /// Parameters:
@@ -164,12 +264,24 @@ class AchievementHelper {
   ///   - The value of the dependent variable.
   static num getAchievementVariable(String dependent, Profile profile) {
     return switch (dependent) {
+      // academic achievements
       "aAmount" => howManyAboveGrade(90, profile),
       "bAmount" => howManyAboveGrade(80, profile),
       "semesterHasFourClasses" => howManySemestersLogged(profile),
       "honorsCourseAmount" => howManyWithWeight(0.5, profile),
       "apCourseAmount" => howManyWithWeight(1.0, profile),
       "gpaCourseSelection" => getGpaCourseSelectionLevel(profile),
+
+      // activity achievements
+      "totalActivityWeeks" => howManyActivityWeeks(profile),
+      "totalActivityItems" => howManyActivityItems(profile),
+      "yearsWithActivities" => howManyYearsWithActivities(profile),
+
+      // volunteer achievements
+      "totalVolunteerHours" => howManyVolunteerHours(profile),
+      "totalVolunteerItems" => howManyVolunteerItems(profile),
+      "yearsVolunteered" => howManyYearsVolunteered(profile),
+      
       _ => throw ("Variable $dependent not valid!")
     };
   }
