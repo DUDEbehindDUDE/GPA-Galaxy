@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gpa_galaxy/widget/achievements_screen/achievement_card.dart';
 
 class AchievementsScreen extends StatefulWidget {
   final String profile;
@@ -25,32 +26,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
             "Academics",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
-          Card.outlined(
-            shape: Border.all(width: 2, color: Colors.white),
-            child: Stack(children: [
-              // Background Image
-              Positioned.fill(
-                child: Image.asset(
-                  'assets/images/achievement_tile_bg.png',
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.none,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        Text("Building up the Galaxy", style: titleCardStyle),
-                        Text("Log your first grade", style: descCardStyle),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ]),
-          )
+          AchievementCard(titleCardStyle: titleCardStyle, descCardStyle: descCardStyle)
         ],
       ),
     );
