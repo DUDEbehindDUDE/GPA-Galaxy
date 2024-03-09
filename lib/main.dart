@@ -10,8 +10,9 @@ import 'package:gpa_galaxy/widget/welcome_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
-  // register hive stuff
+  // Initialize Hive
   await Hive.initFlutter();
+  // Register Hive adapters
   Hive.registerAdapter(ClassAdapter());
   Hive.registerAdapter(ActivityAdapter());
   Hive.registerAdapter(VolunteerAdapter());
@@ -19,7 +20,7 @@ void main() async {
   Hive.registerAdapter(SemesterAdapter());
   Hive.registerAdapter(GradeAdapter());
   Hive.registerAdapter(EarnedAchievementAdapter());
-  // open boxes
+  // Open Hive boxes
   await Hive.openBox("appConfig");
   await Hive.openBox<Profile>("profiles");
 

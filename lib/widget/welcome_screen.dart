@@ -41,10 +41,23 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               children: <Widget>[
                 const Padding(
                   padding: EdgeInsets.only(left: 16, right: 16, bottom: 120),
-                  child: Text(
-                    "Welcome to GPA Galaxy!",
-                    style: TextStyle(fontSize: 48),
-                    textAlign: TextAlign.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Welcome to",
+                        style: TextStyle(fontSize: 32),
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        "GPA Galaxy!",
+                        style: TextStyle(
+                          fontSize: 48,
+                          fontWeight: FontWeight.w600
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
                 FilledButton(
