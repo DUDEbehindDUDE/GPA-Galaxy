@@ -68,11 +68,121 @@ class AchievementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepaintBoundary(
-      key: globalKey,
+    var width = MediaQuery.of(context).size.width - 16;
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => Dialog.fullscreen(
+            backgroundColor: Colors.black.withOpacity(0.6),
+            child: Scaffold(
+              appBar: AppBar(
+                backgroundColor: Colors.transparent,
+                leading: IconButton.filled(
+                  style: const ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll(Colors.black)),
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.pop(context, "close"),
+                ),
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RepaintBoundary(
+                      key: globalKey,
+                      child: SizedBox(
+                        height: width / 1.8,
+                        width: width,
+                        child: Card.outlined(
+                          shape: Border.all(
+                            width: 3,
+                            color: Colors.grey.shade400,
+                          ),
+                          child: Stack(
+                            children: [
+                              // Background Image
+                              Positioned.fill(
+                                child: Image.asset(
+                                  'assets/images/achievement_tile_bg.png',
+                                  fit: BoxFit.cover,
+                                  filterQuality: FilterQuality.none,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: SizedBox(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            _levelText(),
+                                            Text(
+                                              name,
+                                              style: titleCardStyle,
+                                            ),
+                                            Text(
+                                              desc,
+                                              style: descCardStyle,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Spacer(),
+                                          SizedBox(
+                                            width: 48,
+                                            height: 40,
+                                            child: Image.asset(
+                                              "assets/images/logo_transparent.png",
+                                              filterQuality: FilterQuality.none,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        const Spacer(),
+                        TextButton.icon(
+                          onPressed: () {
+                            _share();
+                          },
+                          icon: const Icon(Icons.share),
+                          label: const Text("Share to Social Media"),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              backgroundColor: Colors.transparent,
+            ),
+          ),
+        );
+      },
       child: Card.outlined(
         shape: Border.all(
-            width: 3, color: level == 0 ? Colors.grey.shade800 : Colors.grey.shade400),
+            width: 3,
+            color: level == 0 ? Colors.grey.shade800 : Colors.grey.shade400),
         child: Stack(children: [
           // Background Image
           Positioned.fill(
@@ -104,7 +214,6 @@ class AchievementCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  IconButton(onPressed: _share, icon: const Icon(Icons.share))
                 ],
               ),
             ),

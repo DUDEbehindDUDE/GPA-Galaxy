@@ -75,6 +75,7 @@ flutter:
   assets:
      - assets/data/achievements.json
      - assets/images/logo.png
+     - assets/images/logo_transparent.png
      - assets/images/galaxy1.png
      - assets/images/galaxy2.png
      - assets/images/achievement_tile_bg.png
