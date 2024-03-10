@@ -1,11 +1,8 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:gpa_galaxy/generics/type_adapters/earned_achievement.dart';
 import 'package:share_plus/share_plus.dart';
 
 class AchievementCard extends StatelessWidget {
@@ -75,7 +72,7 @@ class AchievementCard extends StatelessWidget {
       key: globalKey,
       child: Card.outlined(
         shape: Border.all(
-            width: 2, color: level == 0 ? Colors.grey.shade800 : Colors.white),
+            width: 3, color: level == 0 ? Colors.grey.shade800 : Colors.grey.shade400),
         child: Stack(children: [
           // Background Image
           Positioned.fill(
@@ -115,7 +112,7 @@ class AchievementCard extends StatelessWidget {
           if (level == 0)
             Positioned.fill(
               child: Container(
-                color: const Color.fromARGB(180, 36, 36, 36),
+                color: const Color.fromARGB(150, 42, 42, 42),
               ),
             ),
         ]),
