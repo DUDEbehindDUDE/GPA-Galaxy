@@ -142,7 +142,7 @@
       "levelRequirements": [5]
     },
     {
-      "name": "Platinum Comet",
+      "name": "Omega Comet",
       "description": "Achieve a GPA of at least 4.4 with 8+ classes logged",
       "upgradable": false,
       "immutable": true,
@@ -151,7 +151,7 @@
       "levelRequirements": [6]
     }
   ],
-  "activity": [
+  "activities": [
     {
       "name": "Constellation of Commitment",
       "description": "Participate in activities for 3 years of your high school life",
@@ -164,7 +164,7 @@
       "levelRequirements": [3, 4]
     }
   ],
-  "volunteer": [
+  "volunteering": [
     {
       "name": "",
       "description": "Log your first hour of community service",

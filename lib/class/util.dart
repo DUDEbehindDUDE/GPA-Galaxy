@@ -15,6 +15,28 @@ class Util {
     return str.startsWith(RegExp("[AaEeIiOoUu]"));
   }
 
+  /// Formats a string to look like a title. Capitalize each word, except
+  /// for words less than 4 letters.
+  /// 
+  /// Example: "wow the such a cool title" => "Wow the Such a Cool Title"
+  ///
+  /// Parameters:
+  ///   - [str]: The string to format.
+  ///
+  /// Returns:
+  ///   - The formatted string.
+  static String formatTitle(String str) {
+    var splitStr = str.split(" ");
+    for (int i = 0; i < splitStr.length; i++) {
+      var word = splitStr[i].toLowerCase().split("");
+      if (i == 0 || word.length > 3) {
+        word[0] = word[0].toUpperCase();
+      }
+      splitStr[i] = word.join();
+    }
+    return splitStr.join(" ");
+  }
+
   /// Gets an action message based on the screen name.
   ///
   /// Parameters:

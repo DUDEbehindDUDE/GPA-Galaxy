@@ -17,7 +17,8 @@ class AchievementHelper {
   ///
   /// Returns:
   ///   - A Future containing the parsed achievement map.
-  static Future<Map<String, List<Achievements>>> loadJson() async {
+  static Future<Map<String, List<Achievements>>>
+      loadAchievementsFromJson() async {
     var data = await rootBundle.loadString(
       'assets/data/achievements.json',
       cache: true,
@@ -187,7 +188,7 @@ class AchievementHelper {
 
     return totalActivityItems;
   }
-  
+
   /// Returns how many weeks the user has committed to activities in [profile]
   ///
   /// Parameters:
@@ -281,7 +282,6 @@ class AchievementHelper {
       "totalVolunteerHours" => howManyVolunteerHours(profile),
       "totalVolunteerItems" => howManyVolunteerItems(profile),
       "yearsVolunteered" => howManyYearsVolunteered(profile),
-      
       _ => throw ("Variable $dependent not valid!")
     };
   }
@@ -303,14 +303,43 @@ class AchievementHelper {
     BuildContext ctx,
     Function(int) goToScreen,
   ) async {
-    // get the list of all achievements
-    Map<String, List<Achievements>> allAchievements = await loadJson();
+    // get allEarnedAchievements
+    var allEarnedAchievements = await getNewEarnedAchievements(profile);
 
     // check if BuildContext is still valid since there is an async above
     if (!ctx.mounted) {
       return null;
     }
 
+    // check and display new achievements
+    var newAchievements = getNewAchievementList(allEarnedAchievements, profile);
+
+    // this return keeps everything from constantly rerendering
+    if (!checkIfAchievementsChanged(allEarnedAchievements, profile)) {
+      return null;
+    }
+
+    renderAchievementSnackbars(ctx, newAchievements, goToScreen);
+    return allEarnedAchievements;
+  }
+
+  /// Checks through all the achievements, and if the criteria is met, adds them to the
+  /// returned list of earned achievements. This method is only used for checking if there
+  /// should be new achievements or not—if checking for the achievements earned in the
+  /// profile, just get that information straight from the profile, as it is much quicker
+  /// and doesn't require to await for a future.
+  ///
+  /// Parameters:
+  ///   - [profile]: the user profile to check
+  ///
+  /// Returns:
+  ///   - A future containing the new list of all the achievements earned.
+  static Future<Map<String, List<EarnedAchievement>>> getNewEarnedAchievements(
+    Profile profile,
+  ) async {
+    // get the list of all achievements
+    Map<String, List<Achievements>> allAchievements =
+        await loadAchievementsFromJson();
     // Calculate all earned achievements
     Map<String, List<EarnedAchievement>> allEarnedAchievements = {};
     allAchievements.forEach((category, achievements) {
@@ -347,13 +376,6 @@ class AchievementHelper {
       allEarnedAchievements,
       profile,
     );
-
-    // check and display new achievements
-    var newAchievements = getNewAchievementList(allEarnedAchievements, profile);
-
-    // this return keeps everything from constantly rerendering
-    if (!checkIfAchievementsChanged(allEarnedAchievements, profile)) return null;
-    renderAchievementSnackbars(ctx, newAchievements, goToScreen);
 
     return allEarnedAchievements;
   }
@@ -403,7 +425,7 @@ class AchievementHelper {
 
     return newAchievements;
   }
-  
+
   /// Checks if each achievement in allEarnedAchievements is present in profile. If it isn't,
   /// it is added to the returned [List<EarnedAchievement>].
   ///

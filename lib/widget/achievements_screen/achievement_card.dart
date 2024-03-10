@@ -3,24 +3,30 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
+import 'package:gpa_galaxy/generics/type_adapters/earned_achievement.dart';
 import 'package:share_plus/share_plus.dart';
 
-class AchievementCard extends StatefulWidget {
-  const AchievementCard({
+class AchievementCard extends StatelessWidget {
+  final String name;
+  final String desc;
+  final bool upgradable;
+  final int? levelCap;
+  final int level;
+
+  final TextStyle titleCardStyle = const TextStyle();
+  final TextStyle descCardStyle = const TextStyle(fontStyle: FontStyle.italic);
+  final GlobalKey globalKey = GlobalKey();
+
+  AchievementCard({
     super.key,
-    required this.titleCardStyle,
-    required this.descCardStyle,
+    required this.name,
+    required this.desc,
+    required this.upgradable,
+    this.levelCap,
+    this.level = 0,
   });
-
-  final TextStyle titleCardStyle;
-  final TextStyle descCardStyle;
-
-  @override
-  State<AchievementCard> createState() => _AchievementCardState();
-}
-
-class _AchievementCardState extends State<AchievementCard> {
-  GlobalKey globalKey = GlobalKey();
 
   Future<Uint8List> _capturePng() async {
     try {
@@ -49,12 +55,27 @@ class _AchievementCardState extends State<AchievementCard> {
     ], text: "Check out my awesome achievement! #GPAGalaxy");
   }
 
+  Widget _levelText() {
+    if (!upgradable || level == 0) {
+      return const SizedBox(); // Empty widget
+    }
+    String levelText = level == levelCap ? "Max level!" : "Level $level";
+    return Text(
+      levelText,
+      style: const TextStyle(
+        color: Colors.grey,
+        fontStyle: FontStyle.italic,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return RepaintBoundary(
       key: globalKey,
       child: Card.outlined(
-        shape: Border.all(width: 2, color: Colors.white),
+        shape: Border.all(
+            width: 2, color: level == 0 ? Colors.grey.shade800 : Colors.white),
         child: Stack(children: [
           // Background Image
           Positioned.fill(
@@ -66,19 +87,37 @@ class _AchievementCardState extends State<AchievementCard> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                Column(
-                  children: [
-                    Text("Building up the Galaxy",
-                        style: widget.titleCardStyle),
-                    Text("Log your first grade", style: widget.descCardStyle),
-                  ],
-                ),
-                IconButton(onPressed: _share, icon: const Icon(Icons.share))
-              ],
+            child: SizedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _levelText(),
+                        Text(
+                          name,
+                          style: titleCardStyle,
+                        ),
+                        Text(
+                          desc,
+                          style: descCardStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(onPressed: _share, icon: const Icon(Icons.share))
+                ],
+              ),
             ),
           ),
+          if (level == 0)
+            Positioned.fill(
+              child: Container(
+                color: const Color.fromARGB(180, 36, 36, 36),
+              ),
+            ),
         ]),
       ),
     );
