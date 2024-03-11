@@ -1,12 +1,8 @@
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:gpa_galaxy/class/util.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -18,26 +14,6 @@ class AchievementDialog extends StatelessWidget {
   final int level;
   final DateTime? dateEarned;
 
-  final TextStyle titleCardStyle = const TextStyle(
-    fontSize: 28,
-    fontWeight: FontWeight.w700,
-  );
-  final TextStyle descCardStyle = const TextStyle(
-    fontSize: 20,
-    fontStyle: FontStyle.italic,
-    fontWeight: FontWeight.w500,
-  );
-  final TextStyle descriptorCardStyle = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w600,
-    color: Colors.grey.shade400,
-  );
-  final TextStyle descriptorCardStyleItalic = TextStyle(
-    fontSize: 14,
-    fontStyle: FontStyle.italic,
-    fontWeight: FontWeight.w600,
-    color: Colors.grey.shade400,
-  );
   final GlobalKey globalKey = GlobalKey();
 
   AchievementDialog({
@@ -46,18 +22,51 @@ class AchievementDialog extends StatelessWidget {
     required this.desc,
     required this.upgradable,
     this.levelCap,
-    this.level = 0, 
+    this.level = 0,
     this.dateEarned,
   });
 
-  Widget _levelText() {
+  TextStyle _getTextStyle(String item, BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
+    TextStyle titleCardStyle = TextStyle(
+      fontSize: Util.dynamicUnit(18, width),
+      fontWeight: FontWeight.w700,
+    );
+    TextStyle descCardStyle = TextStyle(
+      fontSize: Util.dynamicUnit(13.5, width),
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.w500,
+    );
+    final TextStyle descriptorCardStyle = TextStyle(
+      fontSize: Util.dynamicUnit(10.5, width),
+      fontWeight: FontWeight.w600,
+      color: Colors.grey.shade400,
+    );
+    final TextStyle descriptorCardStyleItalic = TextStyle(
+      fontSize: Util.dynamicUnit(10.5, width),
+      fontStyle: FontStyle.italic,
+      fontWeight: FontWeight.w600,
+      color: Colors.grey.shade400,
+    );
+
+    return switch (item) {
+      "title" => titleCardStyle,
+      "descriptor" => descriptorCardStyle,
+      "descriptorItalic" => descriptorCardStyleItalic,
+      "desc" => descCardStyle,
+      _ => throw ("Item not valid"),
+    };
+  }
+
+  Widget _levelText(BuildContext context) {
     if (!upgradable || level == 0) {
       return const SizedBox(); // Empty widget
     }
     String levelText = level == levelCap ? "Max level!" : "Level $level";
     return Text(
       levelText,
-      style: descriptorCardStyleItalic,
+      style: _getTextStyle("descriptorItalic", context),
     );
   }
 
@@ -148,14 +157,14 @@ class AchievementDialog extends StatelessWidget {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          _levelText(),
+                                          _levelText(context),
                                           Text(
                                             name,
-                                            style: titleCardStyle,
+                                            style: _getTextStyle("title", context),
                                           ),
                                           Text(
                                             desc,
-                                            style: descCardStyle,
+                                            style: _getTextStyle("desc", context),
                                           ),
                                         ],
                                       ),
@@ -164,10 +173,11 @@ class AchievementDialog extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        if (dateEarned != null) Text(
-                                          "Earned ${Util.renderDateMDYyyy(dateEarned!)}",
-                                          style: descriptorCardStyle,
-                                        ),
+                                        if (dateEarned != null)
+                                          Text(
+                                            "Earned ${Util.renderDateMDYyyy(dateEarned!)}",
+                                            style: _getTextStyle("descriptor", context),
+                                          ),
                                         const Spacer(),
                                         SizedBox(
                                           width: 48,

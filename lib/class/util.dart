@@ -143,4 +143,17 @@ class Util {
   static addLeadingZero(String number, {int length = 2}) {
     return number.padLeft(length, "0");
   }
+
+  /// Returns a dynamic size based on the width provided. This can be used, for example,
+  /// for fonts; they will always take up the same amount of width on all devices.
+  /// 
+  /// Parameters:
+  ///  - [size]: the size as it would look on a 300px wide screen
+  ///  - [width]: the width to base the font size off of
+  /// 
+  /// returns:
+  ///  - a size that scales dynamically to the width provided
+  static dynamicUnit(double size, double width) {
+    return width / 300 * size;
+  }
 }
