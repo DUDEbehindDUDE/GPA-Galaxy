@@ -15,7 +15,7 @@ class EarnedAchievement {
   /// Whether the earned achievement can be upgraded or not
   @HiveField(2)
   bool upgradable;
-  
+
   /// Whether the earned achievement can be revoked or not
   @HiveField(4)
   bool immutable;
@@ -28,6 +28,10 @@ class EarnedAchievement {
   @HiveField(5)
   int? levelCap;
 
+  /// Date the achievement was earned
+  @HiveField(6)
+  DateTime dateEarned;
+
   EarnedAchievement({
     required this.name,
     required this.desc,
@@ -35,6 +39,7 @@ class EarnedAchievement {
     this.immutable = false,
     required this.level,
     this.levelCap,
+    required this.dateEarned,
   });
 
   @override

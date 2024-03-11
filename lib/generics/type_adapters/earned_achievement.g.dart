@@ -23,13 +23,14 @@ class EarnedAchievementAdapter extends TypeAdapter<EarnedAchievement> {
       immutable: fields[4] as bool,
       level: fields[3] as int,
       levelCap: fields[5] as int?,
+      dateEarned: fields[6] as DateTime,
     );
   }
 
   @override
   void write(BinaryWriter writer, EarnedAchievement obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class EarnedAchievementAdapter extends TypeAdapter<EarnedAchievement> {
       ..writeByte(3)
       ..write(obj.level)
       ..writeByte(5)
-      ..write(obj.levelCap);
+      ..write(obj.levelCap)
+      ..writeByte(6)
+      ..write(obj.dateEarned);
   }
 
   @override

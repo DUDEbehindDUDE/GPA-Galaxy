@@ -7,9 +7,17 @@ class AchievementCard extends StatelessWidget {
   final bool upgradable;
   final int? levelCap;
   final int level;
+  final DateTime? dateEarned;
 
-  final TextStyle titleCardStyle = const TextStyle();
-  final TextStyle descCardStyle = const TextStyle(fontStyle: FontStyle.italic);
+  final TextStyle titleCardStyle = const TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: 16,
+  );
+  final TextStyle descCardStyle = const TextStyle(
+    fontStyle: FontStyle.italic,
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
+  );
 
   const AchievementCard({
     super.key,
@@ -17,7 +25,8 @@ class AchievementCard extends StatelessWidget {
     required this.desc,
     required this.upgradable,
     this.levelCap,
-    this.level = 0,
+    this.level = 0, 
+    this.dateEarned,
   });
 
   Widget _levelText() {
@@ -30,6 +39,8 @@ class AchievementCard extends StatelessWidget {
       style: const TextStyle(
         color: Colors.grey,
         fontStyle: FontStyle.italic,
+        fontWeight: FontWeight.w500,
+        fontSize: 12,
       ),
     );
   }
@@ -37,18 +48,21 @@ class AchievementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) => AchievementDialog(
-            name: name,
-            desc: desc,
-            upgradable: upgradable,
-            level: level,
-            levelCap: levelCap,
-          ),
-        );
-      },
+      onTap: level == 0
+          ? null
+          : () {
+              showDialog(
+                context: context,
+                builder: (context) => AchievementDialog(
+                  name: name,
+                  desc: desc,
+                  upgradable: upgradable,
+                  level: level,
+                  levelCap: levelCap,
+                  dateEarned: dateEarned,
+                ),
+              );
+            },
       child: Card.outlined(
         shape: Border.all(
             width: 3,

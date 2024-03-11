@@ -59,6 +59,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
           upgradable: item.upgradable,
           level: item.level,
           levelCap: item.levelCap,
+          dateEarned: item.dateEarned,
         ));
       }
     });

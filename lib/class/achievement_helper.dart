@@ -325,9 +325,7 @@ class AchievementHelper {
 
   /// Checks through all the achievements, and if the criteria is met, adds them to the
   /// returned list of earned achievements. This method is only used for checking if there
-  /// should be new achievements or not—if checking for the achievements earned in the
-  /// profile, just get that information straight from the profile, as it is much quicker
-  /// and doesn't require to await for a future.
+  /// should be new achievements or not.
   ///
   /// Parameters:
   ///   - [profile]: the user profile to check
@@ -340,6 +338,7 @@ class AchievementHelper {
     // get the list of all achievements
     Map<String, List<Achievements>> allAchievements =
         await loadAchievementsFromJson();
+
     // Calculate all earned achievements
     Map<String, List<EarnedAchievement>> allEarnedAchievements = {};
     allAchievements.forEach((category, achievements) {
@@ -361,6 +360,7 @@ class AchievementHelper {
         // add achievement to map
         allEarnedAchievements[category] ??= []; // initialize if null
         allEarnedAchievements[category]!.add(EarnedAchievement(
+          dateEarned: DateTime.now(),
           name: achievement.name,
           desc: desc,
           upgradable: achievement.upgradable,
@@ -458,7 +458,8 @@ class AchievementHelper {
 
   /// Checks if there are immutable achievements that are present in the profile that
   /// aren't in allEarned achievements. If there are, they get appended to the list, and
-  /// the new list gets returned.
+  /// the new list gets returned. Also keeps the achievement's old earned date if it has
+  /// been earned previously.
   ///
   /// Parameters:
   ///   - [allEarnedAchievements]: A map containing all earned achievements.
@@ -490,10 +491,11 @@ class AchievementHelper {
           // if names don't match we haven't found it
           if (item.name != achievement.name) continue;
 
-          // keep higher level
-          if (achievement.level > item.level) {
+          // keep higher level & preserve date
+          if (achievement.level >= item.level) {
             allEarnedAchievements[category]![i] = achievement;
           }
+
 
           found = true;
           break;
