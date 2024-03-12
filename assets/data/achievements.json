@@ -154,6 +154,41 @@
   "activities": [
     {
       "name": "Constellation of Commitment",
+      "description": "Participate in your first activity/club",
+      "additionalDescriptions": [
+        "Participate in 3 activities/clubs",
+        "Participate in 5 activities/clubs",
+        "Participate in 7 activities/clubs",
+        "Participate in 10 activities/clubs",
+        "Participate in 13 activities/clubs",
+        "Participate in 16 activities/clubs"
+      ],
+      "upgradable": true,
+      "levelCap": 7,
+      "dependent": "totalActivityItems",
+      "levelRequirements": [1, 3, 5, 7, 10, 13, 16]
+    },
+    {
+      "name": "Galactic Ambassador",
+      "description": "Spend a total of 50 hours in activities/clubs",
+      "additionalDescriptions": [
+        "Spend a total of 100 hours in activities/clubs",
+        "Spend a total of 150 hours in activities/clubs",
+        "Spend a total of 200 hours in activities/clubs",
+        "Spend a total of 250 hours in activities/clubs",
+        "Spend a total of 300 hours in activities/clubs",
+        "Spend a total of 350 hours in activities/clubs",
+        "Spend a total of 400 hours in activities/clubs",
+        "Spend a total of 450 hours in activities/clubs",
+        "Spend a total of 500 hours in activities/clubs"
+      ],
+      "upgradable": true,
+      "levelCap": 10,
+      "dependent": "totalActivityTime",
+      "levelRequirements": [50, 100, 150, 200, 250, 300, 350, 400, 450, 500]
+    },
+    {
+      "name": "Black Hole of Dedication",
       "description": "Participate in activities for 3 years of your high school life",
       "additionalDescriptions": [
         "Participate in activities for all 4 years of your high school life"
@@ -166,40 +201,7 @@
   ],
   "volunteering": [
     {
-      "name": "",
-      "description": "Log your first hour of community service",
-      "additionalDescriptions": [
-        "Log 5 hours of community service",
-        "Log 10 hours of community service",
-        "Log 15 hours of community service",
-        "Log 20 hours of community service",
-        "Log 25 hours of community service",
-        "Log 30 hours of community service",
-        "Log 35 hours of community service",
-        "Log 40 hours of community service",
-        "Log 45 hours of community service",
-        "Log 50 hours of community service",
-        "Log 55 hours of community service",
-        "Log 60 hours of community service",
-        "Log 65 hours of community service",
-        "Log 70 hours of community service",
-        "Log 75 hours of community service",
-        "Log 80 hours of community service",
-        "Log 85 hours of community service",
-        "Log 90 hours of community service",
-        "Log 95 hours of community service",
-        "Log 100 hours of community service"
-      ],
-      "upgradable": true,
-      "levelCap": 21,
-      "dependent": "totalVolunteerHours",
-      "levelRequirements": [
-        1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,
-        90, 95, 100
-      ]
-    },
-    {
-      "name": "Galactic Ambassador",
+      "name": "Interstellar Initiate",
       "description": "Log your first volunteer activity",
       "additionalDescriptions": [
         "Volunteer for 3 different activities",
@@ -219,7 +221,40 @@
       "levelRequirements": [1, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
     },
     {
-      "name": "Black Hole of Dedication",
+      "name": "Planetary Protector",
+      "description": "Make an impact by doing your first hour of community service",
+      "additionalDescriptions": [
+        "Make a lasting impact on the community with 5 hours of community service",
+        "Make a lasting impact on the community with 10 hours of community service",
+        "Make a lasting impact on the community with 15 hours of community service",
+        "Make a lasting impact on the community with 20 hours of community service",
+        "Make a lasting impact on the community with 25 hours of community service",
+        "Make a lasting impact on the community with 30 hours of community service",
+        "Make a lasting impact on the community with 35 hours of community service",
+        "Make a lasting impact on the community with 40 hours of community service",
+        "Make a lasting impact on the community with 45 hours of community service",
+        "Make a lasting impact on the community with 50 hours of community service",
+        "Make a lasting impact on the community with 55 hours of community service",
+        "Make a lasting impact on the community with 60 hours of community service",
+        "Make a lasting impact on the community with 65 hours of community service",
+        "Make a lasting impact on the community with 70 hours of community service",
+        "Make a lasting impact on the community with 75 hours of community service",
+        "Make a lasting impact on the community with 80 hours of community service",
+        "Make a lasting impact on the community with 85 hours of community service",
+        "Make a lasting impact on the community with 90 hours of community service",
+        "Make a lasting impact on the community with 95 hours of community service",
+        "Make a lasting impact on the community with 100 hours of community service"
+      ],
+      "upgradable": true,
+      "levelCap": 21,
+      "dependent": "totalVolunteerHours",
+      "levelRequirements": [
+        1, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85,
+        90, 95, 100
+      ]
+    },
+    {
+      "name": "Supernova of Service",
       "description": "Volunteer for 3 years of your high school life",
       "additionalDescriptions": ["Volunteer all 4 years of your high school life"],
       "upgradable": true,

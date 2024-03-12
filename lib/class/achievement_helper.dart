@@ -208,6 +208,25 @@ class AchievementHelper {
     return weeks;
   }
 
+  /// Returns how many hours the user has committed to activities in [profile]
+  ///
+  /// Parameters:
+  ///   - [profile]: The user profile.
+  ///
+  /// Returns:
+  ///   - The collective time spent in all activities in [profile], in hours.
+  static double howManyActivityHours(Profile profile) {
+    double hours = 0;
+
+    profile.activities.forEach((grade, activities) {
+      for (var activity in activities) {
+        hours += activity.totalWeeks * activity.weeklyTime;
+      }
+    });
+
+    return hours;
+  }
+
   /// Returns the total hours logged of community service in [profile]
   ///
   /// Parameters:
@@ -274,6 +293,7 @@ class AchievementHelper {
       "gpaCourseSelection" => getGpaCourseSelectionLevel(profile),
 
       // activity achievements
+      "totalActivityTime" => howManyActivityHours(profile),
       "totalActivityWeeks" => howManyActivityWeeks(profile),
       "totalActivityItems" => howManyActivityItems(profile),
       "yearsWithActivities" => howManyYearsWithActivities(profile),
