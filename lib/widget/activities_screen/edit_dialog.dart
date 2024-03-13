@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/validation_helper.dart';
 import 'package:gpa_galaxy/generics/type_adapters/activity.dart';
@@ -87,7 +89,7 @@ class _EditDialogState extends State<EditDialog> {
   }
 
   /// Returns a dropdown menu of all the activities in the selected grade
-  DropdownMenu _getActivityDropdownMenu() {
+  DropdownMenu _getActivityDropdownMenu(double availableWidth) {
     var entries = _getActivityDropdownEntries(grade);
     String? errorText;
 
@@ -106,7 +108,7 @@ class _EditDialogState extends State<EditDialog> {
       // make the text red if it is error
       textStyle:
           errorText == null ? null : TextStyle(color: Colors.red.shade200),
-      width: 265,
+      width: availableWidth,
       inputDecorationTheme: const InputDecorationTheme(
         filled: true,
         contentPadding: EdgeInsets.symmetric(vertical: 5.0),
@@ -130,7 +132,8 @@ class _EditDialogState extends State<EditDialog> {
 
   /// Returns the fields to change activity stuff, but only if
   /// the user has selected a valid activity
-  Widget? _getAdditionalItems() {
+  Widget? _getAdditionalItems(double availableWidth) {
+    double itemWidth = (availableWidth - 8) / 2;
     var selectedActivity = this.selectedActivity;
     if (selectedActivity == null) return null;
 
@@ -158,7 +161,7 @@ class _EditDialogState extends State<EditDialog> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: 128,
+              width: itemWidth,
               child: TextField(
                 controller: activityHrWkController,
                 decoration: InputDecoration(
@@ -191,7 +194,7 @@ class _EditDialogState extends State<EditDialog> {
               ),
             ),
             SizedBox(
-              width: 128,
+              width: itemWidth,
               child: TextField(
                 controller: activityWkYrController,
                 decoration: InputDecoration(
@@ -227,11 +230,13 @@ class _EditDialogState extends State<EditDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final double availableWidth =
+        min(MediaQuery.of(context).size.width - 128, 300);
     return AlertDialog(
       title: const Text("Edit an activity"),
       content: SingleChildScrollView(
         child: SizedBox(
-          width: 265,
+          width: availableWidth,
           child: Column(
             children: [
               DropdownMenu(
@@ -247,7 +252,7 @@ class _EditDialogState extends State<EditDialog> {
                     });
                   }
                 },
-                width: 265,
+                width: availableWidth,
                 initialSelection: Grade.freshman,
                 helperText: "Grade",
                 hintText: "Select",
@@ -272,33 +277,44 @@ class _EditDialogState extends State<EditDialog> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: _getActivityDropdownMenu(),
+                child: _getActivityDropdownMenu(availableWidth),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
-                child: _getAdditionalItems(),
+                child: _getAdditionalItems(availableWidth),
               ),
             ],
           ),
         ),
       ),
       actions: [
-        TextButton(
-            onPressed: () => Navigator.pop(context, "cancel"),
-            child: const Text("Cancel")),
-        TextButton(
-            onPressed: selectedActivity != null
-                ? () => _saveEdits(delete: true)
-                : null,
-            child: const Text("Delete")),
-        FilledButton(
-            onPressed: selectedActivity != null &&
-                    newActivityName != null &&
-                    newActivityHrWk != null &&
-                    newActivityWkYr != null
-                ? () => _saveEdits()
-                : null,
-            child: const Text("Save")),
+        Row(
+          children: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, "cancel"),
+              child: const Text("Cancel"),
+            ),
+            const Spacer(),
+            TextButton(
+              onPressed: selectedActivity != null
+                  ? () => _saveEdits(delete: true)
+                  : null,
+              child: const Text("Delete"),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: FilledButton(
+                onPressed: selectedActivity != null &&
+                        newActivityName != null &&
+                        newActivityHrWk != null &&
+                        newActivityWkYr != null
+                    ? () => _saveEdits()
+                    : null,
+                child: const Text("Save"),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

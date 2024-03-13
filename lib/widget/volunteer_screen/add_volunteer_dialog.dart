@@ -182,7 +182,7 @@ class _AddVolunteerDialogState extends State<AddVolunteerDialog> {
       title: const Text("Log new volunteer activity"),
       content: SizedBox(
         width: 300,
-        height: 300,
+        height: 250,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -246,7 +246,7 @@ class _AddVolunteerDialogState extends State<AddVolunteerDialog> {
                 onTap: () => _onDateFieldTap(),
                 focusNode: dateFocusNode,
               ),
-              const Padding(padding: EdgeInsets.only(top: 16.0)),
+              const Padding(padding: EdgeInsets.symmetric(vertical: 16.0)),
             ],
           ),
         ),

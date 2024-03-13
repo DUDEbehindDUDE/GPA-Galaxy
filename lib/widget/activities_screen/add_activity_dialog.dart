@@ -81,7 +81,7 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
     profileBox.put(widget.profile, newProfile);
   }
 
-  /// Checks to see of the activity name is already taken. If it is, 
+  /// Checks to see of the activity name is already taken. If it is,
   /// invalidate field and set error text.
   void _checkIfNameTaken(name) {
     var activities = profileBox.get(widget.profile)!.activities[widget.grade];
@@ -120,13 +120,12 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
                 hintText: _randomActivityName(),
               ),
             ),
-            const Padding(padding: EdgeInsets.all(5)),
+            const Padding(padding: EdgeInsets.only(top: 16.0)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: 128,
+                Flexible(
                   child: TextField(
                     onChanged: (value) {
                       setState(() {
@@ -159,8 +158,8 @@ class _AddGradeDialogState extends State<AddActivityDialog> {
                     controller: hrsPerWkController,
                   ),
                 ),
-                SizedBox(
-                  width: 128,
+                const Padding(padding: EdgeInsets.only(right: 8.0)),
+                Flexible(
                   child: TextField(
                     onChanged: (value) {
                       setState(() {

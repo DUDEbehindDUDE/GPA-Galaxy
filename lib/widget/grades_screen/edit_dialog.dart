@@ -1,4 +1,8 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gpa_galaxy/class/util.dart';
 import 'package:gpa_galaxy/class/validation_helper.dart';
 import 'package:gpa_galaxy/generics/type_adapters/class.dart';
@@ -89,7 +93,7 @@ class _EditDialogState extends State<EditDialog> {
   }
 
   /// Returns a dropdown menu of all the classes in the selected grade and semester
-  DropdownMenu _getClassDropdownMenu() {
+  DropdownMenu _getClassDropdownMenu(double availableWidth) {
     var entries = _getClassDropdownEntries(grade, semester);
     String? errorText;
 
@@ -108,7 +112,7 @@ class _EditDialogState extends State<EditDialog> {
       // make the text red if it is error
       textStyle:
           errorText == null ? null : TextStyle(color: Colors.red.shade200),
-      width: 265,
+      width: availableWidth,
       inputDecorationTheme: const InputDecorationTheme(
         filled: true,
         contentPadding: EdgeInsets.symmetric(vertical: 5.0),
@@ -171,8 +175,10 @@ class _EditDialogState extends State<EditDialog> {
           },
         ),
         const Padding(padding: EdgeInsets.only(top: 8)),
-        Center(
+        SizedBox(
+          width: double.infinity,
           child: SegmentedButton(
+            showSelectedIcon: false,
             segments: const [
               ButtonSegment(
                 value: 0.0,
@@ -230,106 +236,122 @@ class _EditDialogState extends State<EditDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final double availableWidth =
+        min(MediaQuery.of(context).size.width - 128, 300);
     return AlertDialog(
       title: const Text("Edit a class"),
       content: SingleChildScrollView(
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                DropdownMenu(
-                  onSelected: (value) {
-                    if (value != grade) {
-                      setState(() {
-                        classItem = null;
-                      });
-                    }
-                    if (value != null) {
-                      setState(() {
-                        grade = value;
-                      });
-                    }
-                  },
-                  width: 152,
-                  initialSelection: Grade.freshman,
-                  helperText: "Grade",
-                  hintText: "Select",
-                  dropdownMenuEntries: const [
-                    DropdownMenuEntry(
-                      value: Grade.freshman,
-                      label: "9th Grade",
-                    ),
-                    DropdownMenuEntry(
-                      value: Grade.sophomore,
-                      label: "10th Grade",
-                    ),
-                    DropdownMenuEntry(
-                      value: Grade.junior,
-                      label: "11th Grade",
-                    ),
-                    DropdownMenuEntry(
-                      value: Grade.senior,
-                      label: "12th Grade",
-                    ),
-                  ],
-                ),
-                DropdownMenu(
-                  onSelected: (value) {
-                    if (value != semester) {
-                      setState(() {
-                        classItem = null;
-                      });
-                    }
-                    if (value != null) {
-                      setState(() {
-                        semester = value;
-                      });
-                    }
-                  },
-                  width: 106,
-                  initialSelection: Semester.s1,
-                  helperText: "Semester",
-                  hintText: "Select",
-                  dropdownMenuEntries: const [
-                    DropdownMenuEntry(
-                      value: Semester.s1,
-                      label: "S1",
-                    ),
-                    DropdownMenuEntry(
-                      value: Semester.s2,
-                      label: "S2",
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: _getClassDropdownMenu(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: _getAdditionalItems(),
-            ),
-          ],
+        child: SizedBox(
+          width: availableWidth,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  DropdownMenu(
+                    width: availableWidth * 0.6,
+                    onSelected: (value) {
+                      if (value != grade) {
+                        setState(() {
+                          classItem = null;
+                        });
+                      }
+                      if (value != null) {
+                        setState(() {
+                          grade = value;
+                        });
+                      }
+                    },
+                    initialSelection: Grade.freshman,
+                    helperText: "Grade",
+                    hintText: "Select",
+                    dropdownMenuEntries: const [
+                      DropdownMenuEntry(
+                        value: Grade.freshman,
+                        label: "9th Grade",
+                      ),
+                      DropdownMenuEntry(
+                        value: Grade.sophomore,
+                        label: "10th Grade",
+                      ),
+                      DropdownMenuEntry(
+                        value: Grade.junior,
+                        label: "11th Grade",
+                      ),
+                      DropdownMenuEntry(
+                        value: Grade.senior,
+                        label: "12th Grade",
+                      ),
+                    ],
+                  ),
+                  DropdownMenu(
+                    width: availableWidth * 0.4 - 8,
+                    onSelected: (value) {
+                      if (value != semester) {
+                        setState(() {
+                          classItem = null;
+                        });
+                      }
+                      if (value != null) {
+                        setState(() {
+                          semester = value;
+                        });
+                      }
+                    },
+                    initialSelection: Semester.s1,
+                    helperText: "Semester",
+                    hintText: "Select",
+                    dropdownMenuEntries: const [
+                      DropdownMenuEntry(
+                        value: Semester.s1,
+                        label: "S1",
+                      ),
+                      DropdownMenuEntry(
+                        value: Semester.s2,
+                        label: "S2",
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: _getClassDropdownMenu(availableWidth),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: _getAdditionalItems(),
+              ),
+            ],
+          ),
         ),
       ),
       actions: [
-        TextButton(
-            onPressed: () => Navigator.pop(context, "cancel"),
-            child: const Text("Cancel")),
-        TextButton(
-            onPressed:
-                classItem != null ? () => _saveEdits(delete: true) : null,
-            child: const Text("Delete")),
-        FilledButton(
-            onPressed: classItem != null &&
-                    newClassName != null &&
-                    newClassGrade != null
-                ? () => _saveEdits()
-                : null,
-            child: const Text("Save")),
+        Row(
+          children: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, "cancel"),
+              child: const Text("Cancel"),
+            ),
+            const Spacer(),
+            TextButton(
+              onPressed:
+                  classItem != null ? () => _saveEdits(delete: true) : null,
+              child: const Text("Delete"),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: FilledButton(
+                onPressed: classItem != null &&
+                        newClassName != null &&
+                        newClassGrade != null
+                    ? () => _saveEdits()
+                    : null,
+                child: const Text("Save"),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

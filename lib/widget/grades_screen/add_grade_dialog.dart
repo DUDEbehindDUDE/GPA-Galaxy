@@ -1,6 +1,8 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gpa_galaxy/class/util.dart';
 import 'package:gpa_galaxy/class/validation_helper.dart';
 import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
@@ -105,7 +107,7 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
       title: const Text("Add a class"),
       content: SizedBox(
         width: 300,
-        height: 300,
+        height: 272,
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,8 +128,10 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
                 ),
               ),
               const Padding(padding: EdgeInsets.all(4)),
-              Center(
+              SizedBox(
+                width: double.infinity,
                 child: SegmentedButton(
+                  showSelectedIcon: false,
                   segments: const [
                     ButtonSegment(
                       value: 0.0,
@@ -154,9 +158,11 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
                   }),
                 ),
               ),
-              const Padding(padding: EdgeInsets.all(4)),
-              Center(
+              const Padding(padding: EdgeInsets.only(top: 8.0)),
+              SizedBox(
+                width: double.infinity,
                 child: SegmentedButton(
+                  showSelectedIcon: false,
                   segments: const [
                     ButtonSegment(
                       value: Semester.s1,
