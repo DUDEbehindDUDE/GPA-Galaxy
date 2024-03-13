@@ -30,7 +30,7 @@ class EarnedAchievement {
 
   /// Date the achievement was earned
   @HiveField(6)
-  DateTime dateEarned;
+  DateTime? dateEarned;
 
   EarnedAchievement({
     required this.name,

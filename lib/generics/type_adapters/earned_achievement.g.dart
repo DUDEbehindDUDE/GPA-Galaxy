@@ -23,7 +23,7 @@ class EarnedAchievementAdapter extends TypeAdapter<EarnedAchievement> {
       immutable: fields[4] as bool,
       level: fields[3] as int,
       levelCap: fields[5] as int?,
-      dateEarned: fields[6] as DateTime,
+      dateEarned: fields[6] as DateTime?,
     );
   }
 
