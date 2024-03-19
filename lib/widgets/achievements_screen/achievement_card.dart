@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gpa_galaxy/widget/achievements_screen/achievement_dialog.dart';
+import 'package:gpa_galaxy/widgets/achievements_screen/achievement_dialog.dart';
 
 class AchievementCard extends StatelessWidget {
   final String name;

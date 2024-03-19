@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
-import 'package:gpa_galaxy/widget/info/info_screen.dart';
-import 'package:gpa_galaxy/widget/profile/create_profile_dialog.dart';
-import 'package:gpa_galaxy/widget/layout/layout.dart';
-import 'package:gpa_galaxy/widget/profile/delete_profile_dialog.dart';
-import 'package:gpa_galaxy/widget/profile/edit_profile_dialog.dart';
+import 'package:gpa_galaxy/widgets/info/info_screen.dart';
+import 'package:gpa_galaxy/widgets/profile/create_profile_dialog.dart';
+import 'package:gpa_galaxy/widgets/layout/layout.dart';
+import 'package:gpa_galaxy/widgets/profile/delete_profile_dialog.dart';
+import 'package:gpa_galaxy/widgets/profile/edit_profile_dialog.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ProfileSelectScreen extends StatefulWidget {

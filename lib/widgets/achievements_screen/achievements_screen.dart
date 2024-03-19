@@ -3,7 +3,7 @@ import 'package:gpa_galaxy/class/achievement_helper.dart';
 import 'package:gpa_galaxy/class/util.dart';
 import 'package:gpa_galaxy/generics/type_adapters/earned_achievement.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
-import 'package:gpa_galaxy/widget/achievements_screen/achievement_card.dart';
+import 'package:gpa_galaxy/widgets/achievements_screen/achievement_card.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class AchievementsScreen extends StatefulWidget {

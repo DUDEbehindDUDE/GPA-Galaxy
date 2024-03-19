@@ -6,7 +6,7 @@ import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
 import 'package:gpa_galaxy/generics/type_adapters/volunteer.dart';
-import 'package:gpa_galaxy/widget/welcome_screen.dart';
+import 'package:gpa_galaxy/widgets/welcome_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {

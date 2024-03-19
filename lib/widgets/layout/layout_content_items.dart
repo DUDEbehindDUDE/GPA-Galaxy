@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/util.dart';
 import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
 import 'package:gpa_galaxy/generics/type_adapters/semester.dart';
-import 'package:gpa_galaxy/widget/activities_screen/add_activity_dialog.dart';
-import 'package:gpa_galaxy/widget/grades_screen/add_grade_dialog.dart';
+import 'package:gpa_galaxy/widgets/activities_screen/add_activity_dialog.dart';
+import 'package:gpa_galaxy/widgets/grades_screen/add_grade_dialog.dart';
 
 /// Widget responsible for displaying content items based on the selected screen.
 class LayoutContentItems extends StatelessWidget {

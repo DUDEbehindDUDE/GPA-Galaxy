@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/achievement_helper.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
-import 'package:gpa_galaxy/widget/achievements_screen/achievements_screen.dart';
-import 'package:gpa_galaxy/widget/grades_screen/edit_dialog.dart'
+import 'package:gpa_galaxy/widgets/achievements_screen/achievements_screen.dart';
+import 'package:gpa_galaxy/widgets/grades_screen/edit_dialog.dart'
     as grade_edit_dialog;
-import 'package:gpa_galaxy/widget/activities_screen/edit_dialog.dart'
+import 'package:gpa_galaxy/widgets/activities_screen/edit_dialog.dart'
     as activity_edit_dialog;
-import 'package:gpa_galaxy/widget/grades_screen/grades.dart';
-import 'package:gpa_galaxy/widget/volunteer_screen/add_volunteer_dialog.dart';
-import 'package:gpa_galaxy/widget/volunteer_screen/volunteer_screen.dart';
+import 'package:gpa_galaxy/widgets/grades_screen/grades.dart';
+import 'package:gpa_galaxy/widgets/volunteer_screen/add_volunteer_dialog.dart';
+import 'package:gpa_galaxy/widgets/volunteer_screen/volunteer_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'layout_content.dart';

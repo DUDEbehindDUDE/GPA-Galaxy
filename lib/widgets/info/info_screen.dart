@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gpa_galaxy/widget/info/license.dart';
+import 'package:gpa_galaxy/widgets/info/license.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class InfoScreen extends StatelessWidget {

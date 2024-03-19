@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/generics/type_adapters/grade.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
-import 'package:gpa_galaxy/widget/layout/layout_content_items.dart';
+import 'package:gpa_galaxy/widgets/layout/layout_content_items.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 /// Widget responsible for displaying content based on the selected screen and profile.

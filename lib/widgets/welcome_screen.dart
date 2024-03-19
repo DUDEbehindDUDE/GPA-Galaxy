@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gpa_galaxy/widget/info/info_screen.dart';
-import 'package:gpa_galaxy/widget/profile/profile_select_screen.dart';
+import 'package:gpa_galaxy/widgets/info/info_screen.dart';
+import 'package:gpa_galaxy/widgets/profile/profile_select_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:gpa_galaxy/generics/type_adapters/volunteer.dart';
-import 'package:gpa_galaxy/widget/volunteer_screen/volunteer_item.dart';
+import 'package:gpa_galaxy/widgets/volunteer_screen/volunteer_item.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class VolunteerScreen extends StatefulWidget {
