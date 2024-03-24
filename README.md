@@ -1,5 +1,7 @@
 # About
-GPA Galaxy is an app I designed for the 2024 FBLA mobile app development event. GPA Galaxy is a galactic-themed twist to your high school portfolio—log your grades, and earn achievements based on your academic, extracurricular, and volunteering live, and brag about these on social media. 
+GPA Galaxy is an app I designed for the 2024 FBLA mobile app development event. However, I was in the ER the day before the event because of pneumonia and unfortunately I wasn't able to compete :P. As it is this app is fully functional although there are a lot of features that I want to add that I may or may not be able to if I have time. 
+
+GPA Galaxy is a galactic-themed twist to your high school portfolio—log your grades, and earn achievements based on your academic, extracurricular, and volunteering live, and brag about these on social media. 
 
 # Documentation
 All documentation on this project can be found on the wiki tab [here](https://github.com/DUDEbehindDUDE/GPA-Galaxy/wiki).
