@@ -32,9 +32,9 @@ class _VolunteerScreenState extends State<VolunteerScreen> {
     }
 
     List<Widget> children = [];
-    mappedVolunteerItems.forEach((key, value) {
+    mappedVolunteerItems.forEach((year, item) {
       children
-          .add(VolunteerItem(profile: widget.profile, items: value, year: key));
+          .add(VolunteerItem(profile: widget.profile, items: item, year: year));
     });
 
     return children;

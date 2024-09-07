@@ -17,7 +17,7 @@ class Util {
 
   /// Formats a string to look like a title. Capitalize each word, except
   /// for words less than 4 letters.
-  /// 
+  ///
   /// Example: "wow the such a cool title" => "Wow the Such a Cool Title"
   ///
   /// Parameters:
@@ -114,24 +114,6 @@ class Util {
     return "${dateTime.month}/${dateTime.day}";
   }
 
-  /// Renders a string representing the date in M/D/YYYY format.
-  ///
-  /// Parameters:
-  ///   - [dateTime]: The DateTime object representing the date.
-  ///   - [leading]: Flag indicating whether to include leading zero in the month, day, and year.
-  ///
-  /// Returns:
-  ///   - A string representing the date in M/D/YYYY format.
-  static String renderDateMDYyyy(DateTime dateTime, {bool leading = false}) {
-    if (leading) {
-      var month = addLeadingZero(dateTime.month.toString());
-      var day = addLeadingZero(dateTime.day.toString());
-      var year = addLeadingZero(dateTime.year.toString(), length: 4);
-      return "$month/$day/$year";
-    }
-    return "${dateTime.month}/${dateTime.day}/${dateTime.year}";
-  }
-
   /// Adds leading zeros in front of the number.
   ///
   /// Parameters:
@@ -146,11 +128,11 @@ class Util {
 
   /// Returns a dynamic size based on the width provided. This can be used, for example,
   /// for fonts; they will always take up the same amount of width on all devices.
-  /// 
+  ///
   /// Parameters:
   ///  - [size]: the size as it would look on a 300px wide screen
   ///  - [width]: the width to base the font size off of
-  /// 
+  ///
   /// returns:
   ///  - a size that scales dynamically to the width provided
   static dynamicUnit(double size, double width) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_galaxy/class/util.dart';
 import 'package:gpa_galaxy/generics/type_adapters/volunteer.dart';
+import 'package:gpa_galaxy/widgets/volunteer_screen/edit_volunteer_dialog.dart';
 
 class VolunteerItem extends StatelessWidget {
   final String profile;
@@ -79,7 +80,15 @@ class VolunteerItem extends StatelessWidget {
           ),
           ..._renderItems(context),
           TextButton.icon(
-            onPressed: () {},
+            onPressed: () async {
+              showDialog(
+                  context: context,
+                  builder: (context) => EditDialog(
+                        profile: profile,
+                        items: items,
+                        year: year,
+                      ));
+            },
             icon: const Icon(Icons.edit_outlined),
             label: const Text("Edit entries"),
             style: const ButtonStyle(

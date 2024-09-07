@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gpa_galaxy/class/util.dart';
+import 'package:gpa_galaxy/class/date_helper.dart';
 import 'package:gpa_galaxy/class/validation_helper.dart';
 import 'package:gpa_galaxy/generics/type_adapters/profile.dart';
 import 'package:gpa_galaxy/generics/type_adapters/volunteer.dart';
@@ -27,23 +27,9 @@ class _AddVolunteerDialogState extends State<AddVolunteerDialog> {
   String? hoursErrorText;
 
   _AddVolunteerDialogState() {
-    dateController = TextEditingController(text: _formatDateText());
+    dateController =
+        TextEditingController(text: DateHelper.formatMmmmDYyyy(date));
   }
-
-  List<String> months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
 
   /// Adds the item to the database
   void _addToDatabase() {
@@ -64,16 +50,8 @@ class _AddVolunteerDialogState extends State<AddVolunteerDialog> {
 
     setState(() {
       dateFieldEditing = true;
-      dateController.text =
-          Util.renderDateMDYyyy(date, leading: true).replaceAll("/", "-");
+      dateController.text = DateHelper.formatMDYyyy(date, leading: true);
     });
-  }
-
-  /// Converts the text into a more "formal" format. Basically, I mean it turns
-  /// "12-25-2020" -> "December 25, 2020". This gives the user feedback that the
-  /// date they input was indeed valid. (returns the formatted text)
-  String _formatDateText() {
-    return "${months[date.month - 1]} ${date.day}, ${date.year}";
   }
 
   /// Checks if the input date is valid, and if it is sets new date to it
@@ -142,10 +120,10 @@ class _AddVolunteerDialogState extends State<AddVolunteerDialog> {
       date = newDate;
       dateErrorText = null;
       if (dateFieldEditing) {
-        dateController.text = Util.renderDateMDYyyy(newDate, leading: true)
+        dateController.text = DateHelper.formatMDYyyy(newDate, leading: true)
             .replaceAll("/", "-");
       } else {
-        dateController.text = _formatDateText();
+        dateController.text = DateHelper.formatMmmmDYyyy(date);
       }
     });
   }
@@ -158,7 +136,7 @@ class _AddVolunteerDialogState extends State<AddVolunteerDialog> {
     if (dateErrorText == null) {
       setState(() {
         dateFieldEditing = false;
-        dateController.text = _formatDateText();
+        dateController.text = DateHelper.formatMmmmDYyyy(date);
       });
     }
   }
@@ -212,7 +190,7 @@ class _AddVolunteerDialogState extends State<AddVolunteerDialog> {
                 onChanged: (value) {
                   setState(() {
                     if (value.length > 3) {
-                      value = value.substring(0,3);
+                      value = value.substring(0, 3);
                       hoursController.text = value;
                     }
                     hours = ValidationHelper.validateItem(

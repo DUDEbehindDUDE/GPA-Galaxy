@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:gpa_galaxy/class/date_helper.dart';
 import 'package:gpa_galaxy/class/util.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -177,7 +178,7 @@ class AchievementDialog extends StatelessWidget {
                                       children: [
                                         if (dateEarned != null)
                                           Text(
-                                            "Earned ${Util.renderDateMDYyyy(dateEarned!)}",
+                                            "Earned ${DateHelper.formatMDYyyy(dateEarned!)}",
                                             style: _getTextStyle(
                                                 "descriptor", context),
                                           ),
