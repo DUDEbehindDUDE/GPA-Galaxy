@@ -108,7 +108,7 @@ class AchievementDialog extends StatelessWidget {
           backgroundColor: Colors.transparent,
           leading: IconButton.filled(
             style: const ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(Colors.black)),
+                backgroundColor: WidgetStatePropertyAll(Colors.black)),
             icon: const Icon(Icons.close),
             onPressed: () => Navigator.pop(context, "close"),
           ),
@@ -160,11 +160,13 @@ class AchievementDialog extends StatelessWidget {
                                           _levelText(context),
                                           Text(
                                             name,
-                                            style: _getTextStyle("title", context),
+                                            style:
+                                                _getTextStyle("title", context),
                                           ),
                                           Text(
                                             desc,
-                                            style: _getTextStyle("desc", context),
+                                            style:
+                                                _getTextStyle("desc", context),
                                           ),
                                         ],
                                       ),
@@ -176,7 +178,8 @@ class AchievementDialog extends StatelessWidget {
                                         if (dateEarned != null)
                                           Text(
                                             "Earned ${Util.renderDateMDYyyy(dateEarned!)}",
-                                            style: _getTextStyle("descriptor", context),
+                                            style: _getTextStyle(
+                                                "descriptor", context),
                                           ),
                                         const Spacer(),
                                         SizedBox(

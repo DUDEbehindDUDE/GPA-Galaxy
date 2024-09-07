@@ -193,7 +193,7 @@ class _EditDialogState extends State<EditDialog> {
             ],
             style: const ButtonStyle(
               visualDensity: VisualDensity.compact,
-              textStyle: MaterialStatePropertyAll(
+              textStyle: WidgetStatePropertyAll(
                 TextStyle(fontSize: 12),
               ),
             ),

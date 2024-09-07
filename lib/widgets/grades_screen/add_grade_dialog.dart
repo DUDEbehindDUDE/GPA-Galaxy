@@ -53,7 +53,8 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
     var name = className;
     if (name == null) return;
 
-    var classesInSemester = Util.getClassesInSemester(profileBox.get(widget.profile)!, widget.grade, semester);
+    var classesInSemester = Util.getClassesInSemester(
+        profileBox.get(widget.profile)!, widget.grade, semester);
     for (var item in classesInSemester) {
       if (item.className == name) {
         classNameErrorText = "Class name is already taken in semester";
@@ -146,7 +147,7 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
                   ],
                   style: const ButtonStyle(
                     visualDensity: VisualDensity.compact,
-                    textStyle: MaterialStatePropertyAll(
+                    textStyle: WidgetStatePropertyAll(
                       TextStyle(fontSize: 12),
                     ),
                   ),
@@ -173,7 +174,7 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
                   ],
                   style: const ButtonStyle(
                     visualDensity: VisualDensity.compact,
-                    textStyle: MaterialStatePropertyAll(
+                    textStyle: WidgetStatePropertyAll(
                       TextStyle(fontSize: 12),
                     ),
                   ),
@@ -188,8 +189,10 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
               TextField(
                 onChanged: (value) => {
                   setState(() {
-                    grade = ValidationHelper.validateItem(text: value, min: 0, max: 100, type: int);
-                    gradeErrorText = ValidationHelper.validateItemErrorText(text: value, min: 0, max: 100, type: int);
+                    grade = ValidationHelper.validateItem(
+                        text: value, min: 0, max: 100, type: int);
+                    gradeErrorText = ValidationHelper.validateItemErrorText(
+                        text: value, min: 0, max: 100, type: int);
                   })
                 },
                 decoration: InputDecoration(
@@ -212,12 +215,13 @@ class _AddGradeDialogState extends State<AddGradeDialog> {
         ),
         FilledButton(
           // grey out this option if things are invalid as per material 3 guidelines
-          onPressed: (className == null || grade == null || classNameErrorText != null)
-              ? null
-              : () {
-                  _addItem();
-                  Navigator.pop(context, "Create");
-                },
+          onPressed:
+              (className == null || grade == null || classNameErrorText != null)
+                  ? null
+                  : () {
+                      _addItem();
+                      Navigator.pop(context, "Create");
+                    },
           child: const Text("Add"),
         ),
       ],

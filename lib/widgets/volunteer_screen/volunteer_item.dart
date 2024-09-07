@@ -83,9 +83,11 @@ class VolunteerItem extends StatelessWidget {
             icon: const Icon(Icons.edit_outlined),
             label: const Text("Edit entries"),
             style: const ButtonStyle(
-              padding: MaterialStatePropertyAll(EdgeInsets.only(left: 2.0, right: 8.0)),
-              iconSize: MaterialStatePropertyAll(20),
-              textStyle: MaterialStatePropertyAll(TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold)),
+              padding: WidgetStatePropertyAll(
+                  EdgeInsets.only(left: 2.0, right: 8.0)),
+              iconSize: WidgetStatePropertyAll(20),
+              textStyle: WidgetStatePropertyAll(
+                  TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold)),
               visualDensity: VisualDensity.compact,
             ),
           ),

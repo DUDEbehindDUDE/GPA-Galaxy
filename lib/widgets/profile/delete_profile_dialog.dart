@@ -19,9 +19,9 @@ class DeleteProfileDialog extends StatelessWidget {
         FilledButton(
           style: ButtonStyle(
             backgroundColor:
-                MaterialStateColor.resolveWith((states) => Colors.red.shade300),
-            foregroundColor: 
-                MaterialStateColor.resolveWith((states) => const Color.fromARGB(255, 73, 20, 20)),
+                WidgetStateColor.resolveWith((states) => Colors.red.shade300),
+            foregroundColor: WidgetStateColor.resolveWith(
+                (states) => const Color.fromARGB(255, 73, 20, 20)),
           ),
           onPressed: () {
             Hive.box<Profile>("profiles").delete(profile);
